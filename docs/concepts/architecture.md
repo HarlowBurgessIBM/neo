@@ -91,7 +91,13 @@ One step upstream of Feature→Task, and interactive with the BE in the same way
 - **Live:** Product loop (`neo-product` — the Product Engineer, Product Researchers, and the three
   lenses); Specification-loop design; `neo-task-authoring` skill + `task-planner` agent, and
   `neo-feature-authoring` skill + `feature-agent` (GitHub Copilot).
-- **Target (Diagram 2, not yet specced):** Coding loop and Verification / Operations loop.
+- **Shipped agents, loop not yet specced:** the Coding-loop crew (`technical-engineer`,
+  `researcher`, `implementation-planner`, `code-writer`, `code-reviewer`) and the
+  `verification-loop` agent + `neo-verification-template` skill, which prove one spec/task/PR
+  against its criteria with recorded evidence.
+- **Target (Diagram 2, not yet specced):** the Coding-loop and Verification / Operations loop
+  boundaries (Boundaries 2 and 3 in [process-flow.md](./process-flow.md)), feature-level
+  verification, CD, and telemetry.
 
 ## Open threads
 

@@ -17,10 +17,16 @@ agents for GitHub Copilot CLI that drives a spec from concept to a draft PR.
   - `code-reviewer` — reviews the writer's work and requests fixes.
   - `feature-agent`, `task-planner` — the specification crew that turns an issue/story into a
     feature spec and taskset.
+  - `verification-loop` — the proof orchestrator. Independent of the builder: pins the source
+    SHA, drafts a verification plan for one spec/task/PR, runs every check itself after human
+    approval of the check set, and reports a merge-gate recommendation decided by evidence. Never
+    fixes code, never approves or merges.
 - **Skills** (`skills/`):
   - `neo-evidence-standard` — the retrieval-or-silence rule and the `FACT`/`INFERENCE`/`RECALL` labels.
   - `neo-feature-authoring` — authoring guidance for feature specs.
   - `neo-task-authoring` — authoring guidance for tasksets.
+  - `neo-verification-template` — the verification-plan format: case matrix, evidence layers,
+    case results (`Pass` / `Fail` / `Blocked` / `Inconclusive`), and a worked example.
 - **Hooks** (`hooks/hooks.json`, v1 schema, `${PLUGIN_ROOT}`):
   - fail-open **observability** logging via `hooks/scripts/log-event.{sh,ps1}` — the only
     thing the manifest registers.
@@ -47,7 +53,8 @@ skills from `skills/`, and hooks from `hooks/hooks.json`.
 ## Use
 
 Invoke the **business-engineer** with a PRD to run the Specification loop end to end, or the
-**technical-engineer** with an issue/story reference to drive a single task to a draft PR. See the
+**technical-engineer** with an issue/story reference to drive a single task to a draft PR. Invoke
+the **verification-loop** with a spec, task, or PR to get an evidence-backed merge-gate verdict. See the
 repo docs for detail:
 
 - `docs/getting-started.md` — what Neo is and the quickest path in.

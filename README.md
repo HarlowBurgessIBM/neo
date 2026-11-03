@@ -15,8 +15,9 @@ holds manifests, docs, and dev-time-only tooling.
 - `AGENTS.md` — project context agents read (layout, checks, guardrails).
 - `plugins/neo-core/` — the baseline plugin. Agents (`business-engineer` and `technical-engineer`
   orchestrators, plus `researcher`, `implementation-planner`, `code-writer`, `code-reviewer`,
-  `feature-agent`, `task-planner`), the two authoring skills and `neo-evidence-standard`, the
-  observability hooks + logger, and `analyze_agent_logs.py`.
+  `feature-agent`, `task-planner`, and the `verification-loop` orchestrator), the two authoring
+  skills, `neo-verification-template`, and `neo-evidence-standard`, the observability hooks +
+  logger, and `analyze_agent_logs.py`.
 - `plugins/neo-product/` — the optional Product loop. Agents (`product.engineer` orchestrator, plus
   `product.researcher`, `product.coach`, `design.thinking`, `systems.thinking`), the three product
   skills, its own copy of `neo-evidence-standard`, and its own copy of the hooks + logger.
