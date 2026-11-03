@@ -103,9 +103,11 @@ same route that repo gets its `AGENTS.md`.
 | `code-reviewer` | `neo-core` | Same |
 | `feature-agent` | `neo-core` | |
 | `task-planner` | `neo-core` | |
+| `verification-loop` (orchestrator) | `neo-core` | Independent proof of one spec/task/PR; session agent, not a sub-agent |
 | `neo-evidence-standard` skill | `neo-core` | Duplicated into `neo-product` — a plugin cannot reference files outside its own directory |
 | `neo-feature-authoring` skill | `neo-core` | |
 | `neo-task-authoring` skill | `neo-core` | |
+| `neo-verification-template` skill | `neo-core` | Verification-plan format; loaded by `verification-loop` |
 | `product.engineer` (orchestrator) | `neo-product` | Entry point for the Product loop |
 | `product.researcher` | `neo-product` | Fanned out in parallel by the orchestrator |
 | `product.coach` | `neo-product` | Viability lens |

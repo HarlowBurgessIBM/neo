@@ -22,6 +22,7 @@ Specification loop. Assumes Neo is already installed (see
 | **Neo Task Planner** (`task-planner`) | Splits a signed feature into **Tasks**, with you | Yes |
 | **Neo Technical Engineer** (`technical-engineer`) | Orchestrator — takes a Task (issue/story) and drives research → plan → implement → review → draft PR | Yes |
 | **Neo Researcher / Implementation Planner / Code Writer / Code Reviewer** | Coding-loop workers the orchestrator delegates to | No — the orchestrator wires them |
+| **Neo Verification Loop** (`verification-loop`) | Independent verifier — pins the source, drafts a verification plan for one spec/task/PR, runs every check after you approve the check set, and recommends a merge gate from evidence | Yes — select it as the session agent |
 
 The workers are deliberately sharp and single-purpose; they don't know each other or the whole
 spec. The orchestrator (and you) wire them together.

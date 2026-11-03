@@ -28,6 +28,8 @@ person, "Neo Business Engineer" is always software.
 
 **Neo Technical Engineer** `[live]` — The agent (`neo.technical-engineer`, `neo-core`) that supports the human Technical Engineer by taking a **Task** (filed as a GitHub Issue or Azure DevOps story) and driving it through research → plan → implement → review to a draft PR, delegating implementation to **Code Writer** and review to **Code Reviewer**. Canonical `name:` is **Neo Technical Engineer**.
 
+**Neo Verification Loop** `[live]` — The agent (`neo.verification-loop`, `neo-core`) that proves one spec, task, feature, or draft PR against its criteria, independent of the builder: it pins the source SHA, drafts a verification plan with the `neo-verification-template` skill, runs every check itself after the human approves the check set, and recommends a merge gate decided by recorded evidence. It never fixes code, approves, or merges. It is one agent, not the **Verification loop**, which remains `[target]`. Canonical `name:` is **Neo Verification Loop**.
+
 **Product Researcher** `[live]` — Agent (`neo-product`) that answers one scoped product-discovery question — existing code and docs, prior decisions, users, market context. Fanned out in parallel, one question each. Distinct from **Researcher** below, which investigates *how the code works* for an already-specified task.
 
 **Product Coach** `[live]` — Agent (`neo-product`) for the **viability** lens: should we build this? Also drafts the PRD in Phase 5.
