@@ -31,6 +31,7 @@ Pick the layers that the risk justifies. Do not add a layer by default.
 | Integration tests (real dependencies) | Persistence, auth, migrations, end-to-end API behavior | Data stores, tenancy, security-sensitive paths |
 | Static analysis / types / lint | Absence of entire bug classes | Always; record exit codes |
 | Policy-as-code | Configuration and infrastructure rules hold | Deployment, IAM, network, regulated settings |
+| Load / performance tests | Latency percentiles, throughput, saturation under a stated load profile | Quality-attribute NFRs with a response measure under load; needs an environment that sustains the profile, else `Blocked` |
 | Runtime evals | Agent or model behavior on representative inputs, scored against an approved rubric | Any LLM-backed component; scoring must not be done by the generator itself |
 | Formal methods | Safety or liveness properties of a small critical core | Only where failure cost justifies the cost — state machines, money, safety |
 | Authorized manual / live procedure | Behavior in a real environment | Last; only when automated layers cannot reach the property |
@@ -40,7 +41,7 @@ Anything that needs a live environment that is not available is `Blocked`, not `
 ## Workflow
 
 1. **Pin the source.** Record the commit SHA, branch, and any local modifications before running anything. A plan without a SHA is not auditable.
-2. **Trace requirements to checks.** For each acceptance criterion in the spec or task, write one or more cases. Every case has an ID and traces to one criterion. Every criterion has at least one case.
+2. **Trace requirements to checks.** For each acceptance criterion in the spec or task, write one or more cases. Every case has an ID and traces to one criterion. Every criterion has at least one case. Every non-functional requirement (NFR) **in stage** for this plan also traces to at least one case, with its NFR ID in the case's Procedure / Proof cell; NFRs deferred to a later stage are listed in Scope (see NFR traceability).
 3. **Choose the layer per case.** Use the table above. Prefer the lowest layer that can prove the property.
 4. **Write the expected result as an observable outcome.** Status codes, returned values, row states, exit codes, emitted documents. Not "works correctly" and not "looks right".
 5. **Write the automated command blocks.** Each block is runnable as written, records its exit code immediately, and states the expected output. For filtered test runs, require a minimum selected-test count so an empty filter cannot pass silently.
@@ -70,6 +71,16 @@ Rules:
 - IDs are stable across revisions. Retire a case by marking it removed, not by renumbering.
 - Expected results name the exact status, value, state, or artifact. Include negative cases (invalid input, unauthorized caller, stale version, tampered data) alongside positive ones.
 - Each criterion needs at least one negative or boundary case, not just the happy path.
+
+## NFR traceability
+
+The NFR record, its proving layer, and its stage are defined by the `neo-nfr-authoring` skill. This section governs how a plan proves one.
+
+- **In stage** means the record's stage matches this plan's target: `task` for a task or PR plan, `feature-verification` for a feature plan. Each in-stage NFR traces to at least one case whose Procedure / Proof cell names the NFR ID (`[NFR-PERF-001] k6 run …`).
+- **A case never passes an NFR on a layer weaker than the record's proving layer.** A unit test or a mock-backed run does not stand in for a `load/performance`, `integration`, `policy-as-code`, or `live-procedure` proof. When in doubt, use the record's layer exactly.
+- **Missing environment → `Blocked`.** If the environment the proving layer needs does not exist (no staging that sustains the load profile, no policy engine), the case is `Blocked`, never `Pass`, and the residual-risk owner is **the NFR record's Owner**.
+- **Deferred NFRs** — those whose stage is later than this plan's — are listed in Scope as deferred, with stage · layer. They get no case here and are never reported as `Pass`.
+- A `waived` NFR is listed in Scope with its waiver reference. A waiver whose revisit condition has passed has lapsed; treat the NFR as in stage.
 
 ## Automated command block format
 
@@ -125,6 +136,7 @@ Agent configuration is code and gets the same treatment:
 - Source: <full SHA>, <branch>, <local modifications>.
 - Spec revision: <id/version>.
 - What this plan covers, and what it explicitly does not.
+- NFRs in scope / deferred: <NFR-ID (stage · layer)> … — or `None`.
 
 ## Prerequisites and safety
 - Required tools and versions.
@@ -163,6 +175,7 @@ Agent configuration is code and gets the same treatment:
 
 - [ ] Source SHA and spec revision pinned.
 - [ ] Every acceptance criterion traces to at least one case.
+- [ ] Every in-stage NFR traces to at least one case at its proving layer; deferred and waived NFRs are listed in Scope; missing environments are `Blocked` with the record's Owner.
 - [ ] Every case has an observable expected result and a stable ID.
 - [ ] Negative and boundary cases exist for every criterion.
 - [ ] Every automated block records its exit code and requires a minimum selected-test count.

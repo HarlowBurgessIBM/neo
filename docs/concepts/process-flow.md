@@ -8,6 +8,11 @@ themselves are described in [architecture.md](./architecture.md).
 must clear, who owns the gate, and where it goes when it fails. The internals of the Coding
 and Verification loops remain `[target]` and are not specced here.
 
+**NFR coverage checks.** Each boundary below carries one non-functional-requirement (NFR)
+coverage check. This doc owns only *where* each check sits, who owns it, and where a failure
+routes. What each check tests is owned by the `neo-nfr-authoring` skill — see
+[`neo-nfr-authoring` § Coverage checks](../../plugins/neo-core/skills/neo-nfr-authoring/SKILL.md#9-coverage-checks-by-artifact) — and is not restated here.
+
 **Status key:** `[live]` designed and drafted · `[target]` end-state design, not yet specced.
 
 ---
@@ -45,11 +50,20 @@ consumes *segments*, not whole documents, so a PRD that cannot be segmented cann
 Supporting criteria: measurable success criteria, explicit non-goals, prioritized requirements
 (P0/P1/P2), and honestly-stated open assumptions.
 
+**NFR check — PRD.** The PRD's Non-Functional Requirements section lists admissible NFR records,
+or states `Standing only` (check: [`neo-nfr-authoring` § Coverage checks](../../plugins/neo-core/skills/neo-nfr-authoring/SKILL.md#9-coverage-checks-by-artifact)).
+
 **Gate owner.** The **BE** (human). The Product loop hands the PRD over and stops; it never
 invokes `feature-agent` or `task-planner` itself.
 
 **On failure.** Back into the Product loop — usually to the lens that produced the weak section,
 or to a fresh research fan-out when the gap is factual rather than analytical.
+
+**On segmentation.** Once the PRD is accepted, the BE segments it — `neo-business-engineer` drafts
+the segmentation and an **NFR × segment attachment**, and the human BE approves both. The NFR
+check (*Segmentation*, [`neo-nfr-authoring` § Coverage checks](../../plugins/neo-core/skills/neo-nfr-authoring/SKILL.md#9-coverage-checks-by-artifact)) is that every PRD NFR is attached
+to a segment or marked `n/a` with a reason, and that no NFR is its own segment. **On failure**,
+re-segment, or record the NFR as `n/a` with a reason. An unattached NFR is never dropped silently.
 
 **Note.** This boundary is numbered 0 because the loops it joins were specced in the other
 order; the chain reads Product → Specification → Coding → Verification.
@@ -66,12 +80,19 @@ criteria. The task is self-contained — a Coder needs no further business input
 
 **Entry gate.** All must hold:
 
-1. The parent **Feature** is BE-signed and carries What + Why + verification steps.
-2. The task conforms to the `neo-task-authoring` skill — title, parent-feature link, What, and
-   validation criteria that are machine-checkable.
+1. The parent **Feature** is BE-signed and carries What + Why + verification steps, and every
+   applicable NFR in its Constraints has a disposition — mapped, waived, or n/a with a reason
+   (check: *Feature*, [`neo-nfr-authoring` § Coverage checks](../../plugins/neo-core/skills/neo-nfr-authoring/SKILL.md#9-coverage-checks-by-artifact)). A feature without dispositions is
+   not ready-to-work, and the Task Planner refuses it.
+2. The task conforms to the `neo-task-authoring` skill — title, parent-feature link, What,
+   Constraints, and validation criteria that are machine-checkable — and its carrier issue has a
+   `## Constraints` section (check: *Carrier issue*).
 3. The task belongs to a **BE-approved task set**, not an agent-emitted one. Feature→Task
    decomposition is interactive and converges with the BE; a task from an unapproved split
    does not cross.
+4. The approved set is accompanied by its **NFR coverage matrix**, with no uncovered row
+   (check: *Task set*). The BE approves the matrix together with the set, not separately, and it
+   is persisted on the parent feature's issue.
 
 **Gate owner.** The BE. This is a human gate by design — a bad split poisons everything
 downstream, so no agent may open it alone.
@@ -111,7 +132,8 @@ criteria green.
    No human judgment participates in this gate; that is the definition of validation.
 2. **Build, lint, and tests pass** for every layer the change touched.
 3. **Code review approved** by the reviewer agent, for both the feature/fix units and the
-   test units.
+   test units. The reviewer also checks the change against the carrier issue's `## Constraints`
+   (check: *Review*, [`neo-nfr-authoring` § Coverage checks](../../plugins/neo-core/skills/neo-nfr-authoring/SKILL.md#9-coverage-checks-by-artifact)); a violated mapped NFR is a blocker.
 4. The PR is linked to its parent task, and through it to the parent feature.
 
 **Gate owner.** Machine first (validation), then the reviewer agent, then a human on the PR.
@@ -153,6 +175,12 @@ verification steps executed and passed.
 **Entry gate.** The BE executes the feature's **verification steps** in a non-prod
 environment and renders a pass/fail judgment on each. These steps are *the contract*, authored
 at feature-definition time. If the BE cannot verify it, it does not deploy.
+
+In addition, every NFR deferred to `feature-verification` has a recorded result in the
+feature's verification plan (check: *Feature verified*, [`neo-nfr-authoring` § Coverage checks](../../plugins/neo-core/skills/neo-nfr-authoring/SKILL.md#9-coverage-checks-by-artifact)). A
+`Blocked` result — the environment that proves it does not exist — counts as residual risk
+owned by the record's Owner, **never as `Pass`**. An NFR deferral with no recorded result keeps
+the feature from deploying.
 
 **Gate owner.** The BE, exercising human judgment. This is the inverse of Boundary 2's
 machine gate, and deliberately so: **verify features, validate tasks; humans verify, machines
@@ -208,6 +236,10 @@ settleable in production, from **telemetry**, after the window closes. Operation
 Specification loop a verdict on every feature that shipped with KPIs. See
 [The two fits](#the-two-fits) — this edge carries the second one.
 
+NFRs whose proving stage is `operations` ride this same edge `[target]`: they become SLO or
+policy telemetry, and a breach is an input to the Specification loop, routed to the record's
+Owner — feedback, not a block.
+
 ---
 
 ## The two fits
@@ -229,6 +261,11 @@ fail the other.
 That last cell is the reason the outer edge exists. Verification alone cannot catch a feature
 that does exactly what it promised and changed nothing that mattered. Only telemetry can, and
 only after the fact.
+
+NFR proof splits across the same two fits, with no third mechanism: NFRs proved at `task` or
+`feature-verification` are part of problem–solution fit (pre-production, blocking), and NFRs
+proved at `operations` settle alongside KPIs on the Operations → Specification edge
+(production, non-blocking).
 
 ### Falsifiability is a gate on KPI authoring
 

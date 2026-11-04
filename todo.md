@@ -73,8 +73,11 @@ These aren't issues because their home is the owning doc; listed here so they're
 - KPI falsifiability gate (design) → `docs/concepts/process-flow.md` § "Falsifiability is a gate…".
 - Framework gap analysis (OODA–PDCA baseline; gaps G1–G5 vs the backlog; strategic-reopen,
   front-door-gate, and single-BE open questions) → `docs/contributing/design/framework-gap-analysis.md`.
-- First-class NFRs (proposal — NFR record, tiers, waivers, coverage matrix at each gate; waiver
-  authority and register-format open questions) → `docs/contributing/design/nfr-first-class-support.md`.
+- First-class NFRs — shipped as the `neo-nfr-authoring` skill (both plugins; NFR record, tiers,
+  waivers, coverage matrix) with a coverage check at each gate in `docs/concepts/process-flow.md`.
+  Design rationale and the open Architect-role question →
+  `docs/contributing/design/nfr-first-class-support.md`. Phase 3 (stack check templates, Operations
+  telemetry, a consuming-repo CI check) is still open.
 - Loop plugins as a packaging axis on the Process tier (`neo-core` is the baseline; a loop
   plugin ships per optional loop; opt-in install) →
   `docs/contributing/reference/stack-plugin-contract.md` § "Loop plugins".
