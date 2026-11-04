@@ -50,9 +50,9 @@ person, "Neo Business Engineer" is always software.
 
 **PRD / Requirements** `[live]` — High-level product or system requirements. Produced by the **Product loop** (`neo-product`), then segmented by the Business Engineer as the input to the Specification loop. A PRD must be **segmentable** — each segment carrying its own business justification — which is the gate at [Boundary 0](./concepts/process-flow.md#boundary-0--product--specification). Its format is owned by the `neo-product-requirements` skill.
 
-**Feature** `[live]` — The business-level unit. Carries What, Why, optional KPIs, and verification steps; signed off by the Business Engineer. A feature is **not** the spec.
+**Feature** `[live]` — The business-level unit. Carries What, Why, optional KPIs, Constraints (its applicable **NFR**s, each with a disposition), and verification steps; signed off by the Business Engineer. A feature is **not** the spec.
 
-**Task** `[live]` — The spec-level unit; the spec analog. Derives from exactly one feature, sized to ≈ one pull request, and carries machine-checkable validation criteria. Shrinking the spec to task grain is Neo's central move.
+**Task** `[live]` — The spec-level unit; the spec analog. Derives from exactly one feature, sized to ≈ one pull request, and carries machine-checkable validation criteria and its Constraints (NFRs proved by tagged criteria or deferred). Shrinking the spec to task grain is Neo's central move.
 
 **Step** `[target]` — A unit inside the Coding loop, ≈ one commit. Authored during implementation, not during decomposition.
 
@@ -66,6 +66,16 @@ person, "Neo Business Engineer" is always software.
 
 **The contract** `[live]` — A feature's verification steps, authored at feature-definition time. The gate the whole pipeline must satisfy to deploy: if the Business Engineer cannot verify it, it cannot ship.
 
+## Non-functional requirements
+
+**NFR** `[live]` — A non-functional requirement: a measured, sourced constraint *on* delivery (not something delivered) with an ID, a proving layer, and an Owner, defined by the `neo-nfr-authoring` skill.
+
+**NFR register** `[live]` — The consuming repo's list of **standing** NFRs that apply to every feature unless waived, linked from that repo's `AGENTS.md` and maintained by its register owner; agents propose entries but never write it (format: `neo-nfr-authoring`).
+
+**Waiver** `[live]` — A recorded, signed decision that an applicable NFR does not bind one feature, with rationale, residual risk, owner, and a revisit condition; incomplete, it is not a waiver (rule: `neo-nfr-authoring`).
+
+**Coverage matrix** `[live]` — The NFR × task table emitted with a proposed task set, showing each applicable NFR as covered by a tagged criterion, deferred to a later stage, waived, or n/a; a set with an uncovered row cannot be approved (format: `neo-nfr-authoring`).
+
 ## Loops & spaces (Diagram 2)
 
 **Product loop** `[live]` — The loop *upstream* of the Specification loop, shipped by the `neo-product` plugin: research fan-out → viability/desirability/feasibility lenses → synthesis → **PRD**. It answers "what should exist, and why" and is the origin of the PRD that Neo previously assumed into being. Human-gated at two points: the decision to proceed past synthesis, and the Business Engineer's acceptance of the PRD at [Boundary 0](./concepts/process-flow.md#boundary-0--product--specification). It does **not** absorb or replace `feature-agent`/`task-planner`.
@@ -77,6 +87,8 @@ person, "Neo Business Engineer" is always software.
 **Verification loop / Operations & Deployment** `[target]` — PR Review, Smoke Test, User Test, CD, Telemetry. *Human Judgement Required.*
 
 ## Artifacts
+
+**neo-nfr-authoring** `[live]` — The skill defining the NFR record, tiers, admission and waiver rules, carrier forms, coverage matrix, and the coverage check at each artifact. Duplicated into both plugins.
 
 **neo-task-authoring** `[live]` — The skill defining what a clean task is: fields, validation-criteria format, one-PR sizing rule.
 

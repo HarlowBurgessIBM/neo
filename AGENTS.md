@@ -81,7 +81,8 @@ This repo has nothing to compile, lint, or unit-test in the app sense. Do **not*
   `hooks.json` against the hook-manifest contract (`scripts/linting/schemas/hook-manifest.schema.json`
   — including the rule that a `powershell` command must use `$env:PLUGIN_ROOT`, not the
   bare `${PLUGIN_ROOT}`), rejects non-canonical hook event names, and fails on any `agents:`
-  allowlist entry that doesn't resolve to a real agent `name:`. CI runs it via
+  allowlist entry that doesn't resolve to a real agent `name:`, and fails when a skill shipped
+  in more than one plugin (`neo-evidence-standard`, `neo-nfr-authoring`) is not byte-identical across them. CI runs it via
   `.github/workflows/validate.yml`.
 - **Plugins actually load.** Static validation can't prove a component reached the CLI. If you
   touched a manifest or moved a component, install into a throwaway `COPILOT_HOME` and read
@@ -90,8 +91,8 @@ This repo has nothing to compile, lint, or unit-test in the app sense. Do **not*
   ```bash
   export COPILOT_HOME=$(mktemp -d)
   copilot plugin marketplace add .       # must run from the repo root
-  copilot plugin install neo-core@neo    # must say "Installed 4 skills."
-  copilot plugin install neo-product@neo # must say "Installed 4 skills."
+  copilot plugin install neo-core@neo    # must say "Installed 5 skills."
+  copilot plugin install neo-product@neo # must say "Installed 5 skills."
   copilot plugin list                    # confirms installed, enabled, and live directory
   copilot -p "List the exact names of every skill available to you and nothing else."
   ```

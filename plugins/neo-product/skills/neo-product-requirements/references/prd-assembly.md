@@ -15,8 +15,9 @@ A PRD must have at minimum:
 3. **At least one measurable success metric** — with a target and timeframe
 4. **User stories** — tagged P0/P1/P2 with acceptance criteria
 5. **Functional Requirements** — P0 set must be minimal and defensible
+6. **NFR section** — records or "Standing only" (see [quality-attributes.md](./quality-attributes.md))
 
-Do not approve or ship a PRD missing any of these five elements.
+Do not approve or ship a PRD missing any of these six elements.
 
 ---
 
@@ -35,6 +36,7 @@ Run this before presenting a PRD for stakeholder review:
 | Requirements tagged      | Are all functional requirements tagged P0/P1/P2?                       |
 | Dependencies owned       | Does every dependency have an identified owner?                        |
 | Critical risks mitigated | Does every high-impact risk have a mitigation plan?                    |
+| NFRs admissible          | Does every NFR record pass the `neo-nfr-authoring` admission rule?     |
 | Narrative compelling     | Would an executive read the narrative and feel compelled to fund this? |
 | No orphaned placeholders | Are all "[TBD]" items flagged as open questions?                       |
 

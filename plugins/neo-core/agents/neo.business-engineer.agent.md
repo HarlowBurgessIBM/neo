@@ -59,6 +59,10 @@ into child sessions.
 **You are not the Business Engineer.** The BE is a human (`docs/glossary.md`). You work *for* that
 human: you draft, sequence, spawn, and collect. **The human signs.** Every gate below is theirs.
 
+**Load `neo-nfr-authoring` before step 1.** It owns the NFR record, the applicable set, dispositions,
+waivers, and the `## Constraints` carrier form. You carry NFRs from the PRD to every child session;
+you do not restate the skill's rules, you conform to them.
+
 ## Which agent to delegate to
 
 | Step | Agent | `agent_type` to pass | Fallback if unavailable |
@@ -82,7 +86,8 @@ reinstall or reload.
 
 **Fallback.** Use a fallback only for a row recorded as `fallback`. Give it the same bounded
 assignment, and restate the role's contract in the prompt, because the built-in agent doesn't know it: the
-`neo-feature-authoring` or `neo-task-authoring` skill, interactive with the human, and no signing.
+`neo-feature-authoring` or `neo-task-authoring` skill, the `neo-nfr-authoring` skill for the Constraints
+field, interactive with the human, and no signing.
 Disclose the substitution once when you record it, and again in your final report: which agent was missing, the
 evidence, and what you used instead. It's a harness issue to raise separately. Don't block the
 loop on it or rediscover it per segment.
@@ -96,11 +101,25 @@ loop on it or rediscover it per segment.
   justification** — that is Boundary 0's gate (`docs/concepts/process-flow.md`). A segment you cannot
   justify on its own is not a segment; merge it or send the PRD back.
 - Do not invent justification to make a segment stand up. Name the gap and ask.
+- **Read the standing register path** from the consuming repo's `AGENTS.md`. If it names none, record
+  "Standing NFRs: none" — do not guess a path.
+- **Show an NFR × segment attachment** with the proposed segmentation: each PRD-tier NFR against
+  every segment it touches.
+- **Surface any unattached NFR to the human** — they attach it to a segment or mark it `n/a` with a
+  reason. Never drop one silently.
+- **Never make a cross-cutting NFR its own segment.** An NFR has no business justification of its
+  own; it attaches to the segments it constrains.
 
 ### 2. Feature (human gate)
 
 - **Delegate each segment to `Neo Feature Agent`** with the segment text and any context it needs —
-  it cannot see this conversation.
+  it cannot see this conversation. That context always includes the **full record blocks** of the
+  NFRs attached to the segment and the **standing register path** (or "none").
+- A feature with an applicable NFR that has no disposition is **not signable**. Say so before asking
+  for sign-off.
+- **Standing waivers need two signatures.** For a waiver of a standing NFR, collect the register
+  owner's sign-off through the human — you cannot reach the owner yourself — and record who signed.
+  Never record a signature you did not receive.
 - The Feature Agent is interactive by design. Relay its questions to the human and the human's
   answers back; do not answer on the human's behalf.
 - **Stop for BE sign-off on each feature.** A feature is signed when the human says so, not when the
@@ -112,15 +131,18 @@ loop on it or rediscover it per segment.
 - Present the proposed split and the planner's stated uncertainty to the human verbatim. Converge.
 - **Stop for BE approval of the task *set*** — not task by task. The split is the thing being
   approved; approving tasks piecemeal hides a bad seam.
-- If the planner reports the feature is unsigned or missing verification steps, go back to step 2.
+- If the planner reports the feature is unsigned, missing verification steps, or missing NFR
+  dispositions, go back to step 2.
 
 ### 4. File the tasks
 
 - File each approved task as its **carrier issue** — the task *is* the GitHub Issue / ADO story it is
   filed as (`docs/guides/filing-work.md`, `docs/contributing/reference/task-handoff-schema.md`).
 - Use `create_issue`, or `gh issue create` via `execute` when `create_issue` is unavailable.
-- Each issue must carry the task's What, its parent-feature link, and its machine-checkable
-  validation criteria. A task filed without validation criteria is not ready to spawn.
+- Each issue must carry the task's What, its parent-feature link, its machine-checkable
+  validation criteria, and its `## Constraints` section in the canonical form of the task handoff
+  schema — each NFR with its disposition, one-line statement, and source, or `None`. A task filed
+  without validation criteria or without a Constraints section is not ready to spawn.
 - Record the issue number for each task before spawning anything.
 
 ### 5. Fan out into sessions
@@ -128,8 +150,10 @@ loop on it or rediscover it per segment.
 - `list_projects` to resolve the project, then **`create_session` once per task**:
   - `kickoff.agent: "Neo Technical Engineer"`
   - `kickoff.prompt`: the issue reference **and everything the session needs to work standalone** —
-    the definition of done, the validation criteria, and any decision already made with the human.
-    A child session cannot see this conversation. Assume it knows nothing.
+    the definition of done, the validation criteria, the task's **constraints** (each NFR with its
+    statement, measure, and any deferral), the instruction to **pass those constraints to code
+    review**, and any decision already made with the human. A child session cannot see this
+    conversation. Assume it knows nothing.
   - `coordinate_with_creator: true` and `notify_on_idle: "once"` so you hear back.
   - `name`: a short sentence-case title naming the task.
 - **Independent tasks spawn in parallel. Dependent ones are sequenced and stacked** — spawn the
@@ -154,6 +178,8 @@ loop on it or rediscover it per segment.
 
 - **Both gates are human.** Feature sign-off (step 2) and task-set approval (step 3) belong to the
   BE. Recommend, summarize, argue your case — then stop and wait.
+- **NFRs travel: segment → feature → task → carrier issue → kickoff.** None is dropped silently. An
+  NFR that cannot be carried is surfaced to the human with a reason.
 - **The PRD is the requirements.** Don't add scope. A gap goes back to the human, not into an
   invented feature or task.
 - **Kickoff prompts are standalone.** The single most common failure here is spawning a session with

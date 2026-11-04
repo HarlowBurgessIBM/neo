@@ -64,7 +64,8 @@ If ambiguous, ask.
    - Why is this the right time to build this?
    - What does success look like (metrics)?
    - What's explicitly out of scope?
-   - Any known technical constraints or dependencies?
+   - Any known technical constraints or dependencies — and quality-attribute requirements (see
+     [quality-attributes.md](./references/quality-attributes.md))?
    - Who is the audience for this document (engineering? execs? both)?
 
 2. **Do not ask all questions at once.** Group them logically. Start with problem/user/timing. Then scope/constraints.
@@ -116,7 +117,7 @@ If ambiguous, ask.
 | **Prioritization**      | Requirements tagged P0/P1/P2? P0 set minimal and defensible? |
 | **Success metrics**     | Goals measurable with specific targets and timeframes?       |
 | **Narrative strength**  | Would an executive read this and feel compelled to fund it?  |
-| **Technical grounding** | Constraints, integrations, and risks surfaced — not buried?  |
+| **Technical grounding** | Constraints, integrations, and risks surfaced — not buried? NFRs stated as admissible records? |
 | **Completeness**        | Obvious missing sections or open questions left unaddressed? |
 | **Specificity**         | Concrete detail throughout, or placeholders and generics?    |
 
@@ -196,6 +197,7 @@ If ambiguous, ask.
 | Scope definition                    | [scope-definition.md](./references/scope-definition.md)                       |
 | Dependency mapping                  | [dependency-mapping.md](./references/dependency-mapping.md)                   |
 | Risk assessment                     | [risk-assessment.md](./references/risk-assessment.md)                         |
+| Quality attributes (NFRs)           | [quality-attributes.md](./references/quality-attributes.md)                   |
 | **Assembled PRD**                   | `docs/design/requirements/<feature>/prd.md`                                   |
 
 ## Shared Rules

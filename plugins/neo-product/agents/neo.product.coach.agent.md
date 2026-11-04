@@ -135,6 +135,11 @@ template in its `assets/prd-template.md`. It covers:
 - **Scope Boundaries** — What is explicitly out of scope and why.
 - **Dependencies** — Technical, organizational, and external dependencies.
 - **Risks** — What could prevent success, and what mitigations exist.
+- **Non-Functional Requirements** — measured, sourced NFR records, or "Standing only".
+
+Load `neo-nfr-authoring` when drafting the NFR section. It owns the record format and the admission rule; your
+compliance, failure-exposure, and service-level probes above are its raw input, and
+`neo-product-requirements`' `references/quality-attributes.md` procedure turns them into records.
 
 The PRD is the artifact the Product loop exists to produce. It crosses the `PRD → Specification` boundary into
 `neo-core`'s Specification loop, where the BE segments it and `Neo Feature Agent` turns each segment into a feature.

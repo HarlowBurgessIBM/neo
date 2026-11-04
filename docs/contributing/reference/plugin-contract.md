@@ -107,7 +107,9 @@ Two things are conflated easily here, so they are separated below:
   declared `agents`/`skills`/`hooks` paths resolve (inside the plugin, and non-empty) and
   that existing component directories are declared, that each marketplace `plugins[].source`
   resolves and its `version` matches that plugin's `plugin.json`, and that no marketplace
-  entry declares component paths — plus hooks and agent-frontmatter checks. The remaining
+  entry declares component paths, and that a skill shipped in more than one plugin is
+  byte-identical across them (same file set, same bytes) — plus hooks and agent-frontmatter
+  checks. The remaining
   house rules (required identity fields, `keywords[]`, `metadata.*`) are held by review.
 
 Per the spec, **`name` is the only required field in `plugin.json`.** Everything else is
@@ -288,10 +290,10 @@ the `agent_type` ID it passes, not only the display name. See
 Neo-authored skills carry the `neo-` prefix. A skill **vendored** from an upstream source keeps
 its upstream name unchanged (no `neo-` prefix), since its identity is owned elsewhere. Neither
 shipped plugin vendors a skill today; every current skill is Neo-authored. `neo-core` ships
-`neo-evidence-standard`, `neo-feature-authoring`, `neo-task-authoring`, and
+`neo-evidence-standard`, `neo-feature-authoring`, `neo-nfr-authoring`, `neo-task-authoring`, and
 `neo-verification-template`; `neo-product` ships
-`neo-design-thinking`, `neo-evidence-standard`, `neo-product-requirements`, and
-`neo-systems-thinking`. `neo-evidence-standard` is duplicated into both plugins, because
-plugins can't share files (see [§1](#1-plugin-folder-shape), "No cross-plugin file
-references"). The per-plugin inventory lives in
+`neo-design-thinking`, `neo-evidence-standard`, `neo-nfr-authoring`, `neo-product-requirements`,
+and `neo-systems-thinking`. `neo-evidence-standard` and `neo-nfr-authoring` are duplicated into
+both plugins, because plugins can't share files (see [§1](#1-plugin-folder-shape), "No
+cross-plugin file references"); `scripts/validate-plugins.py` fails CI if the copies drift. The per-plugin inventory lives in
 [`stack-plugin-contract.md` § What ships](./stack-plugin-contract.md#what-ships).

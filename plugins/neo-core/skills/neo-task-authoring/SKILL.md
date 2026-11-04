@@ -1,6 +1,6 @@
 ---
 name: neo-task-authoring
-description: Use when writing or reviewing a task during Feature→Task decomposition. Defines the required task fields, how to write machine-checkable validation criteria, and the one-PR sizing rule that bounds a task. Load whenever proposing, editing, or checking a task's shape.
+description: Use when writing or reviewing a task during Feature→Task decomposition. Defines the required task fields, how to write machine-checkable validation criteria (including NFR-tagged ones), and the one-PR sizing rule that bounds a task. Load whenever proposing, editing, or checking a task's shape.
 ---
 
 # Authoring a clean task
@@ -12,6 +12,7 @@ A task is the spec-level unit of work. It derives from exactly one signed-off fe
 - **Title** — imperative and specific (`Add checkout POST endpoint`, not `Checkout work`).
 - **Parent feature** — link/id of the one feature this task derives from. Every task traces to a feature; no orphans.
 - **What** — the technical change, in enough detail that a Coder needs no further business input.
+- **Constraints** — the parent feature's `mapped` NFRs that this task touches, each either proved here by a tagged validation criterion or deferred to a later stage. `None` if it touches none. Format: `neo-nfr-authoring` § Carrier forms — load that skill.
 - **Validation criteria** — the machine-checkable proof the task is complete. Authored now, at task creation. See below.
 
 Do not author steps or commits here. A task is broken into steps inside the Coding loop; each step becomes one commit. Decomposition stops at the task.
@@ -33,6 +34,12 @@ Before / after:
 - ✓ `POST /api/checkout with a valid card returns 201 and creates an Order row with status=paid.` (a system test asserts this)
 
 If you cannot express a criterion the machine can check, the task is under-specified — sharpen the What or split the task.
+
+### NFR-tagged criteria
+
+A criterion that proves an NFR is prefixed with its ID: `- [NFR-SEC-002] Policy check over the changed IaC reports zero resources with public network access enabled; exit code 0.` It obeys every rule above.
+
+Only an NFR whose proving stage is `task` gets a tagged criterion. An **emergent** NFR — p95 under load, availability, RTO/RPO — cannot be proved inside one PR; list it on the Constraints line as a deferral (`NFR-PERF-001 (deferred → feature-verification · load/performance)`). **Defer it; never fake it** with a test that passes on a laptop.
 
 ## Sizing — the one-PR rule
 
@@ -69,7 +76,8 @@ A task is a coherent logical unit — typically a vertical slice of behavior tha
 Title:
 Parent feature:
 What:
+Constraints: <NFR-ID>, <NFR-ID> (deferred → <stage> · <layer>)   # or: None
 Validation criteria:
   - <machine-checkable statement>
-  - <machine-checkable statement>
+  - [<NFR-ID>] <machine-checkable statement>
 ```

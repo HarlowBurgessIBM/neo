@@ -43,7 +43,11 @@ This script makes the remaining invariants executable:
     An unrecognized tool name is not an error, it is a silent capability loss —
     which is exactly how Neo shipped researchers that could not grep or fetch;
   * no agent uses the `user-invokable:` spelling (VS Code honors only
-    `user-invocable:`, so Neo standardizes on the `c` form).
+    `user-invocable:`, so Neo standardizes on the `c` form);
+  * every skill shipped in more than one plugin (`plugins/*/skills/<name>/`) is
+    byte-identical across those plugins — same relative file set, same bytes.
+    Plugins cannot share files, so shared skills (`neo-evidence-standard`,
+    `neo-nfr-authoring`) are duplicated, and an unchecked copy drifts silently.
 
 Exit code 0 = all good, 1 = at least one violation. No third-party deps.
 """
@@ -691,6 +695,43 @@ def check_plugin(plugin: Path) -> None:
         )
 
 
+def check_duplicated_skills(plugins: list[Path]) -> None:
+    """A skill shipped by two or more plugins must be byte-identical in each.
+
+    Plugins are self-contained on install, so shared skills are duplicated rather
+    than referenced. Nothing else keeps the copies in step. Generic by design: any
+    `skills/<name>/` directory that appears in more than one plugin is compared, so
+    there is no list to maintain.
+    """
+    by_name: dict[str, list[Path]] = {}
+    for plugin in plugins:
+        skills_dir = plugin / "skills"
+        if not skills_dir.is_dir():
+            continue
+        for skill in sorted(d for d in skills_dir.iterdir() if d.is_dir()):
+            by_name.setdefault(skill.name, []).append(skill)
+
+    def files(root: Path) -> dict[str, bytes]:
+        return {
+            f.relative_to(root).as_posix(): f.read_bytes()
+            for f in sorted(root.rglob("*"))
+            if f.is_file()
+        }
+
+    for name, dirs in sorted(by_name.items()):
+        if len(dirs) < 2:
+            continue
+        base = dirs[0]
+        base_files = files(base)
+        for other in dirs[1:]:
+            other_files = files(other)
+            a = base.parent.parent.relative_to(REPO_ROOT).as_posix()
+            b = other.parent.parent.relative_to(REPO_ROOT).as_posix()
+            for rel in sorted(set(base_files) | set(other_files)):
+                if base_files.get(rel) != other_files.get(rel):
+                    errors.append(f"[skills] {name} differs between {a} and {b}: {rel}")
+
+
 def check_marketplace(path: Path) -> None:
     """Each plugins[] entry must resolve and agree with that plugin's own plugin.json version."""
     try:
@@ -741,6 +782,9 @@ def main() -> int:
 
     for plugin in plugins:
         check_plugin(plugin)
+
+    # Skills duplicated across plugins must not drift.
+    check_duplicated_skills(plugins)
 
     # Root Copilot marketplace manifest must also parse.
     marketplace = REPO_ROOT / ".github" / "plugin" / "marketplace.json"

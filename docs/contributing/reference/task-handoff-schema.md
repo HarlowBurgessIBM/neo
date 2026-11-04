@@ -58,6 +58,7 @@ Every task carries the fields below. "Source" names where the field's rules are 
 | **Parent feature** | ✅ | Link to the **one** BE-signed feature this task derives from. No orphans. | `task-authoring` |
 | **What** | ✅ | The technical change, detailed enough that a Coder needs no further business input. | `task-authoring` |
 | **Validation criteria** | ✅ | The machine-checkable proof the task is complete. These *are* the "acceptance criteria" the consumer reads (§5). | `task-authoring` |
+| **Constraints** | ✅ on emit (may be `None`) | The parent feature's mapped NFRs this task touches — each proved here by an `[NFR-ID]`-tagged validation criterion, or deferred to a later stage and layer. Carries each NFR's one-line statement and source, because it **must reach the reviewer** and kickoff prompts are standalone. | `neo-nfr-authoring` + this doc |
 | **Depends on** | optional | Declared ordering against sibling tasks under the same feature. Absent = independent. | this doc |
 | **BE-approved** | ✅ to cross | Marker that the task belongs to a **BE-approved task set**. Boundary 1 is a human gate; an unapproved task does not cross. | this doc |
 
@@ -68,6 +69,8 @@ Notes:
 - **Depends on** expresses *only* declared ordering. A task must still be independently
   validatable (`task-authoring` § Sizing); dependency is about sequence, not about a criterion
   that can't pass until a sibling ships.
+- **Constraints** is required of the emitter but read softly by the consumer (§5): issues filed
+  by hand, or before this field existed, have no such section and are still valid tasks.
 - **Integration mode is not a field.** Whether the task PRs into a feature branch or to the
   default branch behind a flag is a project-level choice ([`process-flow.md`](../../concepts/process-flow.md)
   § Integration modes), not per-task data. The schema is identical under either mode.
@@ -83,6 +86,7 @@ Notes:
 | Parent feature | `## Parent feature` section — a link to the feature's issue/URL. |
 | What | `## What` section. |
 | Validation criteria | `## Validation criteria` section — a bullet list, one criterion per line. |
+| Constraints | `## Constraints` section — one bullet per NFR (ID, disposition, statement, source), or `None`. |
 | Depends on | `## Depends on` section — a list of task ids (`#<n>`), or `None`. |
 | BE-approved | The `be-approved` label. Absent label = not yet cleared to cross. |
 
@@ -99,7 +103,12 @@ The emitter writes exactly this shape; the consumer parses exactly this shape.
 
 ## Validation criteria
 - <machine-checkable statement>
-- <machine-checkable statement>
+- [NFR-SEC-002] <machine-checkable statement that proves the NFR>
+
+## Constraints
+- NFR-SEC-002 — mapped — <one-line statement> — source: <path>
+- NFR-PERF-001 — deferred → feature-verification · load/performance — <statement>
+<!-- or: None -->
 
 ## Depends on
 - #<sibling-task>   <!-- or: None -->
@@ -116,6 +125,7 @@ The emitter writes exactly this shape; the consumer parses exactly this shape.
 | Parent feature | **Parent** link to the feature's work item. |
 | What | `Description` field. |
 | Validation criteria | `Acceptance Criteria` field — one criterion per line. |
+| Constraints | A `Constraints` block inside the `Description` field, after the What, in the same bullet form as §3. **Needs a live check:** whether Azure DevOps renders a Markdown heading in that field; if it does not, use a bold `Constraints` label line instead. |
 | Depends on | **Predecessor** link(s) to sibling task work items. |
 | BE-approved | State transition to the project's approved state (e.g. *Approved*), or a `be-approved` tag. |
 
@@ -133,6 +143,8 @@ The story-grade work-item type is fixed at project setup (§1, Naming caution).
   never emits an agent-invented task ([`neo.task-planner.agent.md`](../../../plugins/neo-core/agents/neo.task-planner.agent.md)).
 - Conforms to `task-authoring` for the logical fields. If it cannot express a machine-checkable
   validation criterion, the task is under-specified — sharpen or split, don't file it.
+- **Always writes the Constraints section** — `None` when the task touches no mapped NFR. The
+  section is never omitted, so an absent section unambiguously means "undeclared".
 
 ### Consumer — Team Leader / orchestrator (#11)
 
@@ -144,6 +156,10 @@ The story-grade work-item type is fixed at project setup (§1, Naming caution).
   invent scope to fill the gap ([`neo-code-writer`](../../../plugins/neo-core/agents/neo.code-writer.agent.md)).
 - Reads the **Validation criteria** as the spec's **acceptance criteria** it plans and
   validates against (§ naming reconciliation).
+- Is a **soft consumer** of **Constraints**. An absent section is treated as `None (undeclared)`
+  and reported in the PR body — it is **not** a refusal. The orchestrator accepts any issue/story,
+  including hand-filed ones, so refusing here would break them. A present section is forwarded to
+  the code writer and the code reviewer.
 
 ### Naming reconciliation — validation criteria = acceptance criteria
 
@@ -162,7 +178,9 @@ This schema defines the crossing artifact and nothing else. It deliberately does
 
 - **Logical task rules** — field semantics, machine-checkability, one-PR sizing:
   [`task-authoring`](../../../plugins/neo-core/skills/neo-task-authoring/SKILL.md).
-- **Feature fields** (What/Why/KPIs/verification steps) and BE sign-off:
+- **NFR rules** — the record, tiers, dispositions, waivers, carrier forms, and coverage matrix:
+  the `neo-nfr-authoring` skill (shipped in both plugins).
+- **Feature fields** (What/Why/KPIs/Constraints/verification steps) and BE sign-off:
   [`feature-authoring`](../../../plugins/neo-core/skills/neo-feature-authoring/SKILL.md).
 - **Integration mode** and traceability-under-squash:
   [`process-flow.md`](../../concepts/process-flow.md) § Integration modes.

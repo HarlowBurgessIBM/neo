@@ -193,6 +193,7 @@ artifact that leaves this loop.
 - Prioritizes every requirement (P0/P1/P2);
 - Lists open assumptions and risks honestly, including the ones that weaken the case;
 - Carries **no unsourced number** — every figure traces to a source someone actually fetched;
+- States its NFRs as admissible records, or "Standing only" (`neo-nfr-authoring`);
 - Is **segmentable** — a reader can carve it into independent chunks, each with its own business justification.
 
 That last point is the handoff contract. The PRD crosses the `PRD → Specification` boundary into `neo-core`'s

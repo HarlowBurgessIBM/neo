@@ -1,6 +1,6 @@
 ---
 name: neo-feature-authoring
-description: Use when writing or reviewing a Feature during PRD-segment→Feature definition. Defines the required fields (What, Why, optional KPIs, verification steps), the human-executable verification-steps format, and the BE sign-off gate. Load whenever proposing, editing, or checking a feature's shape.
+description: Use when writing or reviewing a Feature during PRD-segment→Feature definition. Defines the required fields (What, Why, optional KPIs, Constraints, verification steps), the human-executable verification-steps format, and the BE sign-off gate. Load whenever proposing, editing, or checking a feature's shape.
 ---
 
 # Authoring a clean feature
@@ -13,6 +13,7 @@ A feature is the business-level unit of work. It derives from a PRD/requirements
 - **What** — a brief description of the business-level change. No implementation detail, no stack layers, no task-sized breakdown — that's the Task Planner's job, one step downstream.
 - **Why** — justification for building it _now_.
 - **KPIs** (optional) — a hypothesis with a number and a window (e.g. "decrease abandoned carts by 23% over 30 days"). Omit rather than invent one with no credible basis.
+- **Constraints** — every applicable non-functional requirement (NFR) with a disposition: `mapped`, `waived`, or `n/a — <reason>`. The applicable set, the disposition rules, the waiver rule, and the block format are owned by the `neo-nfr-authoring` skill — load it. Write `Constraints: None` only when no NFR applies at all (no standing register, no PRD NFRs, no feature-tier NFRs).
 - **Verification steps** — the contract. See below.
 
 Do not author tasks or validation criteria here. A feature is decomposed into tasks by the Task Planner, collaboratively with the BE — that decomposition is a separate step, governed by the `neo-task-authoring` skill.
@@ -36,7 +37,9 @@ If every step you can write is really machine-checkable, the "feature" may alrea
 
 ## Sign-off gate
 
-A feature is **not** ready-to-work until it has What + Why + verification steps **and** explicit BE sign-off. No sign-off, no downstream decomposition — the Task Planner refuses an unsigned feature.
+A feature is **not** ready-to-work until it has What + Why + Constraints + verification steps **and** explicit BE sign-off. No sign-off, no downstream decomposition — the Task Planner refuses an unsigned feature.
+
+Constraints are part of the gate. Every applicable NFR must be `mapped`, `waived`, or `n/a` with a reason — one with no disposition makes the feature unsignable. A waiver counts only if it has every field `neo-nfr-authoring` requires, and a waiver of a **standing** NFR also needs the signature of that record's Owner (the register owner), not just the BE's. The Task Planner refuses a feature whose Constraints are missing or lack dispositions, just as it refuses an unsigned one.
 
 ## Template
 
@@ -46,6 +49,10 @@ What:
 Why:
 KPIs (optional):
   - <hypothesis, a number, a window>
+Constraints:
+  - <NFR-ID>   mapped (standing | prd | feature)
+  - <NFR-ID>   n/a — <reason>
+  - <NFR-ID>   waived — rationale: <…>; risk: <…>; owner: <…>; revisit: <…>; signed-by: <…>
 Verification steps:
   - <BE-executable, non-prod, pass/fail judgment>
   - <BE-executable, non-prod, pass/fail judgment>

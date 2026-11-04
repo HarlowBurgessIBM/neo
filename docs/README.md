@@ -52,6 +52,7 @@ owner table for its half; the shared-core owners are:
 | Loop boundaries, integration modes, KPI settlement | [`concepts/process-flow.md`](./concepts/process-flow.md) |
 | Which `tools:` aliases the Copilot CLI actually resolves | [`contributing/guides/agent-authoring-reference.md`](./contributing/guides/agent-authoring-reference.md) |
 | Evidence discipline — retrieval, citations, FACT/INFERENCE/RECALL labels | the `neo-evidence-standard` skill, shipped in both plugins |
+| NFR record, tiers, admission, waivers, coverage matrix | the `neo-nfr-authoring` skill, shipped in both plugins |
 
 Repo-level layout, checks, and guardrails for working on Neo itself live in the root
 [`AGENTS.md`](../AGENTS.md), not here. None of `docs/` ships in a plugin.

@@ -24,6 +24,9 @@ A **Feature** is the contract. Give it:
 - **Why** — justification for building it *now*.
 - **KPIs** (optional) — a hypothesis with a number and a window (e.g. "decrease abandoned carts by
   23% over 30 days").
+- **Constraints** — every applicable non-functional requirement (from the PRD and your repo's
+  standing NFR register) marked mapped, waived, or n/a with a reason. Rules: the
+  `neo-nfr-authoring` skill.
 - **Verification steps** — business-executable in a non-prod environment. **This is the contract.**
   If you can't verify it, it can't deploy.
 
@@ -39,6 +42,8 @@ Issue or Azure DevOps story** it lives in, not a separate document. A well-forme
 - **Is sized to ≈ one pull request.** Too big → split. Too small to stand as its own PR → fold.
 - **Carries machine-checkable validation criteria** — each an assertion a test or agent can run to a
   deterministic pass/fail. Not "looks right"; a check that passes or fails.
+- **Carries its Constraints** — the feature's NFRs it touches, each proved by an `[NFR-ID]`-tagged
+  criterion or deferred to a later stage, or `None`.
 - **Is a logical chunk** — a vertical slice that validates independently, not a stack layer (unless
   the change genuinely is one layer).
 
