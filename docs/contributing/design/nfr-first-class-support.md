@@ -6,8 +6,8 @@ it, so it survives only if an agent happens to pass it along. This document prop
 become first-class without adding a loop, a PRD type, or a second artifact hierarchy.
 
 **Status: accepted — Phase 1 landed in
-[HarlowBurgessIBM/neo#3](https://github.com/HarlowBurgessIBM/neo/pull/3); Phase 2 lands from
-`feat/nfr-coverage-gates`.** Phase 3 is not designed here. This is still a *design* doc — the
+[HarlowBurgessIBM/neo#3](https://github.com/HarlowBurgessIBM/neo/pull/3), Phase 2 in
+[HarlowBurgessIBM/neo#4](https://github.com/HarlowBurgessIBM/neo/pull/4).** Phase 3 is not designed here. This is still a *design* doc — the
 *why* and the shape. It is not the contract: the rules now live in their owning docs and skills
 (the `neo-nfr-authoring` skill, `process-flow.md`, the task handoff schema, and the files in
 [§ Changes by file](#changes-by-file)), and where this doc and an owner disagree, the owner
