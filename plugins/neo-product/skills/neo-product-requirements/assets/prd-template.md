@@ -117,8 +117,35 @@ designs (Figma, etc.) when available.
 - **Architecture:** Constraints, patterns, or dependencies.
 - **Integrations:** Systems this must connect to.
 - **Data:** What's needed, stored, or exposed.
-- **Performance:** Latency, throughput, scale expectations.
-- **Security/Compliance:** Regulatory or access control requirements.
+
+Performance, security, compliance, and every other non-functional requirement go in the next section as records, not
+here as prose.
+
+---
+
+## Non-Functional Requirements
+
+Format, admission rule, and tiers: the `neo-nfr-authoring` skill. Elicitation: `references/quality-attributes.md`.
+
+Standing NFRs: `<register path from AGENTS.md>` apply unless waived at feature sign-off. _(or: none)_
+
+One record block per PRD-tier NFR — or the literal `Standing only` if the register covers everything:
+
+### NFR-<PREFIX>-<NNN> — <short title>
+
+```text
+ID:            NFR-<PREFIX>-<NNN>
+Kind:          quality-attribute | constraint
+Category:      <category>
+Statement:     <scenario with response measure, or boundary + observed violation>
+Source:        <document § section, with locator>
+Tier:          prd
+Proving layer: <layer> · <stage>
+Owner:         <human>
+```
+
+This PRD may **tighten** a standing NFR (add `Tightens: <standing ID>`) but never loosen it. Any request to loosen one,
+and any candidate NFR that fails admission, goes to Open Questions.
 
 ---
 

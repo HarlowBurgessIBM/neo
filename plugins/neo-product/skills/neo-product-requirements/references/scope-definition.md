@@ -38,14 +38,17 @@ Common exclusion reasons:
 
 ### 3. Define Constraints
 
-Constraints are non-negotiable boundaries that shape the solution:
+Constraints are non-negotiable boundaries that shape the solution. Split them by what they constrain:
 
-| Constraint                                      | Type       | Source                |
-| ----------------------------------------------- | ---------- | --------------------- |
-| _e.g., must use existing authentication system_ | Technical  | Architecture decision |
-| _e.g., must comply with regulation X_           | Regulatory | Compliance team       |
-| _e.g., must launch by Q3_                       | Timeline   | Business commitment   |
-| _e.g., no additional infrastructure budget_     | Budget     | Finance               |
+- **System constraints** (Technical, Regulatory) — "must use the existing authentication system", "must comply with
+  regulation X" — constrain what is built. They are **NFR records** in the PRD's Non-Functional Requirements section,
+  not rows here. Elicit and write them with [quality-attributes.md](./quality-attributes.md).
+- **Project constraints** (Timeline, Budget) — constrain how the work is delivered. They stay in this table:
+
+| Constraint                                  | Type     | Source              |
+| ------------------------------------------- | -------- | ------------------- |
+| _e.g., must launch by Q3_                   | Timeline | Business commitment |
+| _e.g., no additional infrastructure budget_ | Budget   | Finance             |
 
 ### 4. Define Assumptions
 
@@ -65,7 +68,7 @@ Write to `docs/design/requirements/<feature>/scope.md`.
 
 1. In-scope inventory table by category
 2. Out-of-scope table with rationale and revisit conditions
-3. Constraints table
+3. Constraints table (project constraints only; system constraints are NFR records)
 4. Assumptions table with confidence ratings
 5. Scope change process — how changes to scope are proposed and approved
 
