@@ -1,15 +1,17 @@
 <!--
   Implementation plan for nfr-first-class-support.md. Not a contract.
-  Every file:line locator below is pinned to commit da2542b on docs/nfr-first-class-support.
-  Re-verify locators against the tree before editing if anything has landed since.
+  Every file:line locator below was pinned to commit da2542b on docs/nfr-first-class-support and
+  re-verified on 2026-11-04 against 24c75f1 (the branch tip; the only commit since da2542b is this
+  plan). origin/main is still 2131b19, the merge base. Re-verify locators against the tree before
+  editing if anything lands after that.
 -->
 
 # Plan — First-class NFR support (Phases 1–2 in full, Phase 3 outline)
 
 ## Context
 
-`docs/contributing/design/nfr-first-class-support.md` (branch `docs/nfr-first-class-support`, tip `da2542b`)
-proposes making NFRs first-class. Today nothing below the PRD can carry one. This plan turns the proposal
+`docs/contributing/design/nfr-first-class-support.md` (branch `docs/nfr-first-class-support`, design at `da2542b`,
+branch tip `24c75f1`) proposes making NFRs first-class. Today nothing below the PRD can carry one. This plan turns the proposal
 into commits. Each rule lands once, in its owning doc or skill. Copilot is the only harness. Plugins stay
 self-contained. Nothing is built, so the checks are the validator, manifest parsing, links, and a live
 install.
@@ -37,8 +39,10 @@ All three open questions were put to the user, and the recommended default was c
    [HarlowBurgessIBM/neo#1](https://github.com/HarlowBurgessIBM/neo/pull/1), which has since merged as `2131b19`. The content
    claims still hold. Change the baseline to `2131b19`.
 2. **"`NFR` returns no hits anywhere."** It now hits in `todo.md:76-77`, `docs/README.md:40`, and
-   `docs/contributing/README.md:53-54,65`, all of them pointers to the design doc. There are still zero hits
-   under `plugins/`. Reword the claim to "no shipped content".
+   `docs/contributing/README.md:53-54,67`, all of them pointers to the design doc. There are still zero hits
+   under `plugins/`. Reword the claim to "no shipped content". When re-checking, search for the whole word
+   (`rg -nw 'NFR|non-functional'`): a bare substring search also matches `INFRA` in
+   `docs/design/system-boundaries/neo-agentic-sdlc.md:207,225`, which is not an NFR reference.
 3. **`NFR-OBS-001` in the worked example (design:179).** "Observability" is not in the fixed category list
    (design:71). Add a category→prefix map and rename the record to `NFR-OPS-001` (operability).
 4. **"load test" is not a layer.** The design says the proving layer comes from the verification
@@ -78,7 +82,7 @@ All three open questions were put to the user, and the recommended default was c
 | 3 | Machine-checked coverage | **User chose the default.** Phase 2 is enforced by prompts and BE approval. The formats are fixed now so a check stays possible. A CI check or template moves to Phase 3. This is recorded as a known risk. Note that a plugin cannot ship a workflow, and a consuming repo's CI cannot reach a plugin's install directory. |
 | 4 | Cross-PRD NFRs | **Out of scope, confirmed.** Nothing here reads across PRDs. Standing NFRs cover the shared case. |
 | — | Skill name | **`neo-nfr-authoring` conforms.** It has the `neo-` prefix, it is kebab-case, and the directory name equals the frontmatter `name:` (`plugin-contract.md:249-255,274-276`). It parallels `neo-feature-authoring` and `neo-task-authoring`. It is Neo-authored, not vendored. Frontmatter uses only `name` and `description`; any other top-level key is a hard error on spec-conformant paths (`plugin-contract.md:270-273`). |
-| — | Branch | **`feat/nfr-first-class-support`, cut from `docs/nfr-first-class-support` (`da2542b`).** The design doc then travels with the work, and U0 corrects it in the same history. No PR exists yet for the docs branch (FACT: the only PR is #1, merged). If the docs branch merges first, rebase the feature branch onto `main`. Phase 2 goes on `feat/nfr-coverage-gates`, cut from the Phase 1 branch, with its PR stacked on the Phase 1 PR. **Harness note:** this session's push target is only `docs/nfr-first-class-support`. The implementing session must be allowed to push the `feat/` branches. |
+| — | Branch | **`feat/nfr-first-class-support`, cut from `docs/nfr-first-class-support` (`24c75f1`).** The design doc and this plan then travel with the work, and U0 corrects the design doc in the same history. No PR exists yet for the docs branch (FACT, re-checked 2026-11-04: the only PR in the repo is #1, merged). If the docs branch merges first, rebase the feature branch onto `main`. Phase 2 goes on `feat/nfr-coverage-gates`, cut from the Phase 1 branch, with its PR stacked on the Phase 1 PR. **Harness note:** this session's push target is only `docs/nfr-first-class-support`. The implementing session must be allowed to push the `feat/` branches. |
 
 Proving-layer names, used inline in the skill and as the verification-template layer names:
 `unit/property`, `contract`, `integration`, `static-analysis`, `policy-as-code`, `load/performance`
@@ -256,7 +260,7 @@ The skill owns sections 2–9. Everything else links to it.
 - **`references/prd-assembly.md`:**
   - Minimum-viable list `:11-19`: add item 6, "NFR section — records or 'Standing only'", and change "five" to "six".
   - Quality Check `:27-39`: add the row "NFRs admissible".
-- **`neo.product.coach.agent.md` at the PRD drafting paragraph (`~:129`):** "Load `neo-nfr-authoring` when drafting the NFR section."
+- **`neo.product.coach.agent.md` at the PRD drafting paragraph (`:127-131`):** "Load `neo-nfr-authoring` when drafting the NFR section."
 - **`neo.product.engineer.agent.md` Phase 5 gate (`:190-196`):** add the bullet "States its NFRs as admissible records, or 'Standing only'."
 - **Safe alone.** Until U7, the BE reads the PRD NFR section as prose, which is no worse than today.
 
@@ -392,7 +396,7 @@ Every check below links to `neo-nfr-authoring` § Coverage checks. `process-flow
 
 #### U13 — `docs: mark first-class NFRs accepted and true up inventories`
 - **Design doc:** change the status to "accepted — landed in <PR A>, <PR B>".
-- **"(proposal)" labels:** drop them in `docs/contributing/README.md:53,65` and `docs/README.md:40`.
+- **"(proposal)" labels:** drop them in `docs/contributing/README.md:53,67` and `docs/README.md:40`.
 - **`todo.md:76-77`:** point to the shipped skill. Leave `todo.md:16` as it is; it is a historical count.
 
 ---
@@ -445,6 +449,12 @@ Run after **every** unit:
 for f in .github/plugin/marketplace.json plugins/*/plugin.json plugins/*/hooks/hooks.json; do python3 -c "import json;json.load(open('$f'))" && echo "ok  $f" || echo "BAD $f"; done
 python3 scripts/validate-plugins.py
 ```
+
+**Baseline at `24c75f1` (FACT, run 2026-11-04):** the five manifests parse, `validate-plugins.py` reports
+`Plugin validation passed: 2 plugin(s) OK.`, and the link check below reports exactly one line,
+`.github/workflows/docs-consistency-audit.md: path`. That one is a false positive — the file quotes the
+literal `[text](path)` as an example at `:35` — so treat it as the baseline, not a regression. Any other
+line is new.
 
 Link check after every docs-touching unit. There is no link checker in the repo, so use this one-off script:
 ```bash
