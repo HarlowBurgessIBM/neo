@@ -107,7 +107,9 @@ Two things are conflated easily here, so they are separated below:
   declared `agents`/`skills`/`hooks` paths resolve (inside the plugin, and non-empty) and
   that existing component directories are declared, that each marketplace `plugins[].source`
   resolves and its `version` matches that plugin's `plugin.json`, and that no marketplace
-  entry declares component paths — plus hooks and agent-frontmatter checks. The remaining
+  entry declares component paths, and that a skill shipped in more than one plugin is
+  byte-identical across them (same file set, same bytes) — plus hooks and agent-frontmatter
+  checks. The remaining
   house rules (required identity fields, `keywords[]`, `metadata.*`) are held by review.
 
 Per the spec, **`name` is the only required field in `plugin.json`.** Everything else is
