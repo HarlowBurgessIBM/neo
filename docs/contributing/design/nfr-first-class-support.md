@@ -5,9 +5,13 @@ state a latency budget or a regulatory boundary, but nothing below the PRD has a
 it, so it survives only if an agent happens to pass it along. This document proposes how NFRs
 become first-class without adding a loop, a PRD type, or a second artifact hierarchy.
 
-**Status: proposal.** This is a *design* doc — the *why* and a proposed shape. It is not a
-contract and changes nothing until its pieces land in the owning docs and skills listed in
-[§ Changes by file](#changes-by-file). Nothing here is `[live]`. Baseline: `main` after
+**Status: accepted — Phase 1 landed in
+[HarlowBurgessIBM/neo#3](https://github.com/HarlowBurgessIBM/neo/pull/3); Phase 2 lands from
+`feat/nfr-coverage-gates`.** Phase 3 is not designed here. This is still a *design* doc — the
+*why* and the shape. It is not the contract: the rules now live in their owning docs and skills
+(the `neo-nfr-authoring` skill, `process-flow.md`, the task handoff schema, and the files in
+[§ Changes by file](#changes-by-file)), and where this doc and an owner disagree, the owner
+wins. Baseline for the analysis below: `main` after
 verification-loop shipped and the docs were trued up (PR #1). The implementation sequence is in
 [nfr-implementation-plan.md](./nfr-implementation-plan.md).
 

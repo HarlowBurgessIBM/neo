@@ -50,11 +50,11 @@ says who owns what.
 
 - [design/framework-gap-analysis.md](./design/framework-gap-analysis.md) — Neo measured against the
   OODA / PDCA / Double-Diamond baseline: where it holds, where it's ahead, and the G1–G5 gaps.
-- [design/nfr-first-class-support.md](./design/nfr-first-class-support.md) — **proposal**: make
+- [design/nfr-first-class-support.md](./design/nfr-first-class-support.md) — **accepted**: make
   non-functional requirements first-class — an NFR record, tiers, waivers, and a coverage check at
   every existing gate.
 - [design/nfr-implementation-plan.md](./design/nfr-implementation-plan.md) — the unit-by-unit
-  implementation plan for that proposal: verified current state, decisions, commit order, and checks.
+  implementation plan for that design: verified current state, decisions, commit order, and checks.
 
 ## Who owns what
 
@@ -64,7 +64,7 @@ says who owns what.
 | What Neo is, the loops, the core rule | [../concepts/architecture.md](../concepts/architecture.md) |
 | Loop boundaries, integration modes, KPI settlement | [../concepts/process-flow.md](../concepts/process-flow.md) |
 | Framework gap analysis (OODA–PDCA baseline, G1–G5) | [design/framework-gap-analysis.md](./design/framework-gap-analysis.md) |
-| First-class NFRs (proposal) | [design/nfr-first-class-support.md](./design/nfr-first-class-support.md) |
+| First-class NFRs (design rationale) | [design/nfr-first-class-support.md](./design/nfr-first-class-support.md) |
 | NFR record, tiers, admission, waivers, coverage matrix | the `neo-nfr-authoring` skill, shipped in both plugins |
 | Plugin folder shape, manifest fields, `neo-` naming | [reference/plugin-contract.md](./reference/plugin-contract.md) |
 | Core/stack split, tiers, loop plugins, stack-skill discovery | [reference/stack-plugin-contract.md](./reference/stack-plugin-contract.md) |

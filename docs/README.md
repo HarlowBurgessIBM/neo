@@ -38,7 +38,7 @@ Start at **[`contributing/README.md`](./contributing/README.md)** — the contri
 - **Authoring & operations** (`contributing/guides/`) — agent authoring, observability,
   enforcement.
 - **Design rationale** (`contributing/design/`) — the framework gap analysis and the first-class NFR
-  proposal.
+  design.
 
 ## The one rule (both doors)
 
