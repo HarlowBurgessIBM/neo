@@ -55,6 +55,9 @@ says who owns what.
   every existing gate.
 - [design/nfr-implementation-plan.md](./design/nfr-implementation-plan.md) — the unit-by-unit
   implementation plan for that design: verified current state, decisions, commit order, and checks.
+- [design/nfr-phase-3-executable-checks.md](./design/nfr-phase-3-executable-checks.md) — **proposal**:
+  Phase 3 of first-class NFRs — a reference checker, issue-level coverage checks, stack check
+  templates, and the operations-stage contract.
 
 ## Who owns what
 
