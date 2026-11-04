@@ -1,18 +1,16 @@
 <!--
   Implementation plan for nfr-first-class-support.md. Not a contract.
-  Every file:line locator below was pinned to commit da2542b on docs/nfr-first-class-support and
-  re-verified on 2026-11-04 against 24c75f1 (the branch tip; the only commit since da2542b is this
-  plan). origin/main is still 2131b19, the merge base. Re-verify locators against the tree before
-  editing if anything lands after that.
+  file:line locators refer to the tree as of this plan's merge. If a file has changed since, go by the
+  quoted text, not the line number.
 -->
 
 # Plan — First-class NFR support (Phases 1–2 in full, Phase 3 outline)
 
 ## Context
 
-`docs/contributing/design/nfr-first-class-support.md` (branch `docs/nfr-first-class-support`, design at `da2542b`,
-branch tip `24c75f1`) proposes making NFRs first-class. Today nothing below the PRD can carry one. This plan turns the proposal
-into commits. Each rule lands once, in its owning doc or skill. Copilot is the only harness. Plugins stay
+`docs/contributing/design/nfr-first-class-support.md` proposes making NFRs first-class. Today nothing below the PRD
+can carry one. This plan turns the proposal into commits. **To run it:** merge this branch to `main`, cut a feature
+branch from `main`, and work the units below in order on that branch. Each rule lands once, in its owning doc or skill. Copilot is the only harness. Plugins stay
 self-contained. Nothing is built, so the checks are the validator, manifest parsing, links, and a live
 install.
 
@@ -35,9 +33,9 @@ All three open questions were put to the user, and the recommended default was c
 
 ### Design premises that are wrong or stale. Fix them in U0 and plan against the fixed versions.
 
-1. **Baseline SHA.** `0a835d0` does not resolve in this clone. FACT: it is the head SHA of
-   [HarlowBurgessIBM/neo#1](https://github.com/HarlowBurgessIBM/neo/pull/1), which has since merged as `2131b19`. The content
-   claims still hold. Change the baseline to `2131b19`.
+1. **Baseline SHA.** `0a835d0` does not resolve in this clone. FACT: it was the head SHA of
+   [HarlowBurgessIBM/neo#1](https://github.com/HarlowBurgessIBM/neo/pull/1), since merged. The content claims still hold.
+   Drop the SHA and say "Baseline: `main` after verification-loop shipped and the docs were trued up (PR #1)".
 2. **"`NFR` returns no hits anywhere."** It now hits in `todo.md:76-77`, `docs/README.md:40`, and
    `docs/contributing/README.md:53-54,67`, all of them pointers to the design doc. There are still zero hits
    under `plugins/`. Reword the claim to "no shipped content". When re-checking, search for the whole word
@@ -82,7 +80,7 @@ All three open questions were put to the user, and the recommended default was c
 | 3 | Machine-checked coverage | **User chose the default.** Phase 2 is enforced by prompts and BE approval. The formats are fixed now so a check stays possible. A CI check or template moves to Phase 3. This is recorded as a known risk. Note that a plugin cannot ship a workflow, and a consuming repo's CI cannot reach a plugin's install directory. |
 | 4 | Cross-PRD NFRs | **Out of scope, confirmed.** Nothing here reads across PRDs. Standing NFRs cover the shared case. |
 | — | Skill name | **`neo-nfr-authoring` conforms.** It has the `neo-` prefix, it is kebab-case, and the directory name equals the frontmatter `name:` (`plugin-contract.md:249-255,274-276`). It parallels `neo-feature-authoring` and `neo-task-authoring`. It is Neo-authored, not vendored. Frontmatter uses only `name` and `description`; any other top-level key is a hard error on spec-conformant paths (`plugin-contract.md:270-273`). |
-| — | Branch | **`feat/nfr-first-class-support`, cut from `docs/nfr-first-class-support` (`24c75f1`).** The design doc and this plan then travel with the work, and U0 corrects the design doc in the same history. No PR exists yet for the docs branch (FACT, re-checked 2026-11-04: the only PR in the repo is #1, merged). If the docs branch merges first, rebase the feature branch onto `main`. Phase 2 goes on `feat/nfr-coverage-gates`, cut from the Phase 1 branch, with its PR stacked on the Phase 1 PR. **Harness note:** this session's push target is only `docs/nfr-first-class-support`. The implementing session must be allowed to push the `feat/` branches. |
+| — | Branch | **Merge this docs branch to `main` first.** Then cut `feat/nfr-first-class-support` from `main` for Phase 1 (U0–U7) and open PR A. After PR A merges, cut `feat/nfr-coverage-gates` from `main` for Phase 2 (U8–U13) and open PR B. Sequential, not stacked. |
 
 Proving-layer names, used inline in the skill and as the verification-template layer names:
 `unit/property`, `contract`, `integration`, `static-analysis`, `policy-as-code`, `load/performance`
@@ -109,11 +107,11 @@ Category→prefix map:
 The type and scope of each commit follow repo history (`docs(design)`, `feat(verification)`, `fix(agents)`).
 Do **not** use `!` or `BREAKING CHANGE`. `scripts/bump-versions.py:35-40` would bump the major version.
 
-### PR A — Phase 1: traceability (U0–U7, on `feat/nfr-first-class-support`)
+### PR A — Phase 1: traceability (U0–U7, on `feat/nfr-first-class-support`, cut from `main`)
 
 #### U0 — `docs(design): correct NFR proposal premises and record decisions`
 - **File:** `docs/contributing/design/nfr-first-class-support.md`
-- **Baseline (`:10-11`):** change `0a835d0` to `2131b19`.
+- **Baseline (`:10-11`):** drop the `0a835d0` SHA per §1 item 1.
 - **"No hits" claim (`:32`):** reword to "no shipped content under `plugins/`".
 - **§1:** add the category→prefix map.
 - **§6:** rename `NFR-OBS-001` to `NFR-OPS-001`. Change `load test` to `load/performance`.
@@ -327,7 +325,7 @@ The skill owns sections 2–9. Everything else links to it.
   - **Rules (`:153-176`):** add "NFRs travel: segment → feature → task → carrier issue → kickoff; none is dropped silently."
 - The tools already include `create_session`, so nothing changes there.
 
-### PR B — Phase 2: gates (U8–U13, on `feat/nfr-coverage-gates`, stacked on PR A)
+### PR B — Phase 2: gates (U8–U13, on `feat/nfr-coverage-gates`, cut from `main` after PR A merges)
 
 #### U8 — `docs(process-flow): add NFR coverage checks to the boundary gates`
 Every check below links to `neo-nfr-authoring` § Coverage checks. `process-flow.md` owns only where each check sits, the gate owner, and the failure route.
@@ -450,11 +448,10 @@ for f in .github/plugin/marketplace.json plugins/*/plugin.json plugins/*/hooks/h
 python3 scripts/validate-plugins.py
 ```
 
-**Baseline at `24c75f1` (FACT, run 2026-11-04):** the five manifests parse, `validate-plugins.py` reports
+**Known baseline:** before any unit, the five manifests parse, `validate-plugins.py` reports
 `Plugin validation passed: 2 plugin(s) OK.`, and the link check below reports exactly one line,
 `.github/workflows/docs-consistency-audit.md: path`. That one is a false positive — the file quotes the
-literal `[text](path)` as an example at `:35` — so treat it as the baseline, not a regression. Any other
-line is new.
+literal `[text](path)` as an example at `:35` — so ignore it. Any other line is new.
 
 Link check after every docs-touching unit. There is no link checker in the repo, so use this one-off script:
 ```bash
