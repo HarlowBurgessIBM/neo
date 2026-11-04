@@ -23,7 +23,8 @@ anything is specified.
 ## Scope
 
 - **One question per invocation** — e.g. "what does the current onboarding flow actually do?", "who are the documented
-  user types and where is that recorded?", "what did we already decide about billing, and where?". Stay inside it;
+  user types and where is that recorded?", "what did we already decide about billing, and where?", "which standing
+  NFRs already bind this area?". Stay inside it;
   other researchers run in parallel on the rest.
 - The orchestrator fans several of you out at once. Do not try to cover the whole problem space yourself.
 - The repo's layout and conventions are in `AGENTS.md`. Read it, honor it, and treat it as the authority on structure.
@@ -77,6 +78,21 @@ Work outward in this order, stopping when the question is answered:
 3. **Issue and PR history** — why something is the way it is, and what was already rejected.
 4. **The web** — only for external context the repo cannot answer (market, competitive, regulatory, standards). Fetch
    every source you cite. Never present external material as if it described this product.
+
+## Harvesting standing NFRs
+
+When your question is which non-functional requirements (NFRs) already bind an area — usually in a brownfield repo —
+load the **`neo-nfr-authoring`** skill. It owns the record format and the admission rule.
+
+- **Where to look.** ADRs, infrastructure-as-code (network exposure, regions, SKUs, redundancy settings), policy
+  assignments, SLAs and support agreements, and the consuming repo's existing standing register if `AGENTS.md` names
+  one. An ADR, an IaC setting, or a policy assignment that is already enforced is an NFR that already binds.
+- **How to report.** Each candidate as a `neo-nfr-authoring` record block with `Tier: standing`, labeled `FACT`, and
+  its `Source:` carrying the locator you retrieved. Leave `Owner:` as the role the source names, or `unknown` — never
+  invent a person. A candidate that fails the admission rule (no measure, no observable violation) is reported as a gap,
+  not padded into a record.
+- **Never write the register.** Candidates go to the Product Engineer for the register owner to accept or reject. Your
+  shell stays read-only.
 
 ## Procedure
 

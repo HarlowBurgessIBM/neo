@@ -92,8 +92,11 @@ Before any lens runs, decompose the ask into **discrete, independently answerabl
 `Neo Product Researcher` **in parallel — one question per invocation**. This is a fan-out, not a single researcher
 called repeatedly.
 
-Typical questions: what the system does today, which prior decisions already bind this area, who the documented users
-are, what external or regulatory context applies.
+Typical questions: what the system does today, which prior decisions already bind this area, which standing
+non-functional requirements (NFRs) already bind it — from ADRs, IaC, policy assignments, and SLAs, as candidate
+`neo-nfr-authoring` records — who the documented users are, what external or regulatory context applies. A researcher
+answers only the question it is asked, so ask the standing-NFR question explicitly. Candidates it returns go to the
+register owner; nobody in this loop writes the register.
 
 - Give each researcher exactly one question and enough context to answer it standalone.
 - Collect findings and note explicitly which are **fact** (cited) and which are **inference**.
