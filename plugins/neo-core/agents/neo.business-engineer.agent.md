@@ -128,9 +128,12 @@ loop on it or rediscover it per segment.
 ### 3. Tasks (human gate)
 
 - **Delegate each signed feature to `Neo Task Planner`.**
-- Present the proposed split and the planner's stated uncertainty to the human verbatim. Converge.
+- Present the proposed split, its **NFR coverage matrix**, and the planner's stated uncertainty to
+  the human verbatim. Converge.
 - **Stop for BE approval of the task *set*** — not task by task. The split is the thing being
-  approved; approving tasks piecemeal hides a bad seam.
+  approved; approving tasks piecemeal hides a bad seam. The set is approved **together with its
+  matrix**: a set whose matrix has an uncovered row is not approvable, and you do not present it as
+  if it were.
 - If the planner reports the feature is unsigned, missing verification steps, or missing NFR
   dispositions, go back to step 2.
 
@@ -144,6 +147,10 @@ loop on it or rediscover it per segment.
   schema — each NFR with its disposition, one-line statement, and source, or `None`. A task filed
   without validation criteria or without a Constraints section is not ready to spawn.
 - Record the issue number for each task before spawning anything.
+- **Persist the approved matrix on the parent feature's issue** as a comment headed
+  `## NFR coverage matrix` (`gh issue comment` via `execute`), with the task references replaced by
+  the issue numbers you just recorded. A comment is append-only, so it never clobbers the feature
+  body; if the set is re-approved later, post a new comment rather than editing the old one.
 
 ### 5. Fan out into sessions
 
