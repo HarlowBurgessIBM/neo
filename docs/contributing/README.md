@@ -53,6 +53,8 @@ says who owns what.
 - [design/nfr-first-class-support.md](./design/nfr-first-class-support.md) — **proposal**: make
   non-functional requirements first-class — an NFR record, tiers, waivers, and a coverage check at
   every existing gate.
+- [design/nfr-implementation-plan.md](./design/nfr-implementation-plan.md) — the unit-by-unit
+  implementation plan for that proposal: verified current state, decisions, commit order, and checks.
 
 ## Who owns what
 
