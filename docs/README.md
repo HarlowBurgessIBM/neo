@@ -37,7 +37,8 @@ Start at **[`contributing/README.md`](./contributing/README.md)** — the contri
   hook contract.
 - **Authoring & operations** (`contributing/guides/`) — agent authoring, observability,
   enforcement.
-- **Design rationale** (`contributing/design/`) — the framework gap analysis.
+- **Design rationale** (`contributing/design/`) — the framework gap analysis and the first-class NFR
+  proposal.
 
 ## The one rule (both doors)
 
