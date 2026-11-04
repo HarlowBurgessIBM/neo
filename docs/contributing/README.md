@@ -65,6 +65,7 @@ says who owns what.
 | Loop boundaries, integration modes, KPI settlement | [../concepts/process-flow.md](../concepts/process-flow.md) |
 | Framework gap analysis (OODA–PDCA baseline, G1–G5) | [design/framework-gap-analysis.md](./design/framework-gap-analysis.md) |
 | First-class NFRs (proposal) | [design/nfr-first-class-support.md](./design/nfr-first-class-support.md) |
+| NFR record, tiers, admission, waivers, coverage matrix | the `neo-nfr-authoring` skill, shipped in both plugins |
 | Plugin folder shape, manifest fields, `neo-` naming | [reference/plugin-contract.md](./reference/plugin-contract.md) |
 | Core/stack split, tiers, loop plugins, stack-skill discovery | [reference/stack-plugin-contract.md](./reference/stack-plugin-contract.md) |
 | The Task handoff artifact | [reference/task-handoff-schema.md](./reference/task-handoff-schema.md) |

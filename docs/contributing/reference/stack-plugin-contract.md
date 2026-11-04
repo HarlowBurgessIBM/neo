@@ -50,7 +50,7 @@ belongs is the repo's characteristic defect.
 | --- | --- | --- | --- |
 | **Process** | Loops, roles, proof mechanisms, orchestration, observability | `neo-core`, plus a **loop plugin** per optional loop (`neo-product`) | Which loops you run — never the stack or the project |
 | **Technology** | How to build, test, and review in a given stack | `neo-react`, `neo-dotnet`, … | Stack |
-| **Project** | Layout, exact commands, integration mode, gotchas, path-scoped rules | Consuming repo's `AGENTS.md` + `.github/instructions/` | Project |
+| **Project** | Layout, exact commands, integration mode, gotchas, path-scoped rules, standing NFR register | Consuming repo's `AGENTS.md` + `.github/instructions/` + standing NFR register (suggested `docs/design/quality/nfr-register.md`, in the consuming repo) | Project |
 
 **Test for placement:** if it changes when you switch stacks, it isn't core. If it changes when
 you switch projects within the same stack, it isn't the stack plugin either — it belongs in the
@@ -89,6 +89,14 @@ is not one of the discovery locations, so they **cannot** ship in a plugin at al
 [`plugin-contract.md`](./plugin-contract.md) § 1. They are authored into the consuming repo, by the
 same route that repo gets its `AGENTS.md`.
 
+The **standing NFR register** is the consumer's obligation too. Neo ships the record *format* and
+the coverage *gates* (the `neo-nfr-authoring` skill, in both plugins); the consuming repo owns the
+*content* — its standing non-functional requirements and the register owner who maintains them —
+and links the register from its `AGENTS.md` (suggested path, in the consuming repo:
+`docs/design/quality/nfr-register.md`). Neo ships no NFR content, and agents never write the
+register: they propose candidate entries to the register owner. A repo with no register is valid;
+the agents record "Standing NFRs: none" rather than guessing.
+
 ---
 
 ## What ships
@@ -106,6 +114,7 @@ same route that repo gets its `AGENTS.md`.
 | `verification-loop` (orchestrator) | `neo-core` | Independent proof of one spec/task/PR; session agent, not a sub-agent |
 | `neo-evidence-standard` skill | `neo-core` | Duplicated into `neo-product` — a plugin cannot reference files outside its own directory |
 | `neo-feature-authoring` skill | `neo-core` | |
+| `neo-nfr-authoring` skill | `neo-core` | NFR record, tiers, admission, waivers, coverage matrix. Duplicated into `neo-product` |
 | `neo-task-authoring` skill | `neo-core` | |
 | `neo-verification-template` skill | `neo-core` | Verification-plan format; loaded by `verification-loop` |
 | `product.engineer` (orchestrator) | `neo-product` | Entry point for the Product loop |
@@ -116,7 +125,8 @@ same route that repo gets its `AGENTS.md`.
 | `neo-product-requirements` skill | `neo-product` | Owns the PRD artifact and template |
 | `neo-design-thinking` skill | `neo-product` | |
 | `neo-systems-thinking` skill | `neo-product` | |
-| `neo-evidence-standard` skill | `neo-product` | Copy of `neo-core`'s; keep the two in step |
+| `neo-evidence-standard` skill | `neo-product` | Copy of `neo-core`'s; keep the two in step — CI-checked |
+| `neo-nfr-authoring` skill | `neo-product` | Copy of `neo-core`'s; keep in step — CI-checked |
 | Lifecycle hooks + `log-event.{sh,ps1}` | `neo-core`, `neo-product` | Duplicated, not shared — a plugin cannot reference files outside its own directory |
 | `enforce-guardrails.{sh,ps1}` | `neo-core`, `neo-product` | Opt-in `preToolUse` guardrail scripts, shipped unregistered; duplicated like the logger |
 | `analyze_agent_logs.py` | `neo-core` | Analyzes logs the core hooks emit — ships with them |

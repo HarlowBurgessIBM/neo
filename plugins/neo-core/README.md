@@ -24,6 +24,9 @@ agents for GitHub Copilot CLI that drives a spec from concept to a draft PR.
 - **Skills** (`skills/`):
   - `neo-evidence-standard` — the retrieval-or-silence rule and the `FACT`/`INFERENCE`/`RECALL` labels.
   - `neo-feature-authoring` — authoring guidance for feature specs.
+  - `neo-nfr-authoring` — the NFR record, tiers, admission and waiver rules, carrier forms, and the
+    coverage matrix that carries non-functional requirements through every gate. Duplicated,
+    byte-identical, into `neo-product`.
   - `neo-task-authoring` — authoring guidance for tasksets.
   - `neo-verification-template` — the verification-plan format: case matrix, evidence layers,
     case results (`Pass` / `Fail` / `Blocked` / `Inconclusive`), and a worked example.

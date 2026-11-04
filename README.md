@@ -16,11 +16,13 @@ holds manifests, docs, and dev-time-only tooling.
 - `plugins/neo-core/` — the baseline plugin. Agents (`business-engineer` and `technical-engineer`
   orchestrators, plus `researcher`, `implementation-planner`, `code-writer`, `code-reviewer`,
   `feature-agent`, `task-planner`, and the `verification-loop` orchestrator), the two authoring
-  skills, `neo-verification-template`, and `neo-evidence-standard`, the observability hooks +
+  skills, `neo-nfr-authoring`, `neo-verification-template`, and `neo-evidence-standard`, the
+  observability hooks +
   logger, and `analyze_agent_logs.py`.
 - `plugins/neo-product/` — the optional Product loop. Agents (`product.engineer` orchestrator, plus
   `product.researcher`, `product.coach`, `design.thinking`, `systems.thinking`), the three product
-  skills, its own copy of `neo-evidence-standard`, and its own copy of the hooks + logger.
+  skills, its own copies of `neo-evidence-standard` and `neo-nfr-authoring`, and its own copy of
+  the hooks + logger.
 - `.github/agents/` (repo root) — `master-control`, the **dev-time** agent that authors this
   harness config. Never shipped.
 - `.github/plugin/marketplace.json` — the marketplace manifest (stays at root, lists each plugin
