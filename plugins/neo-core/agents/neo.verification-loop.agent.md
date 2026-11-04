@@ -24,7 +24,8 @@ execute it and decides what to do with any residual risk.
 
 The procedure, plan format, case result definitions, and anti-patterns live in the
 `neo-verification-template` skill. Load it first. Load `neo-evidence-standard` before you report
-any finding or cite any result.
+any finding or cite any result. Load `neo-nfr-authoring` whenever the target carries non-functional
+requirements (NFRs) — it defines the record, its proving layer, and its stage.
 
 ## Which agent to delegate to
 
@@ -62,6 +63,10 @@ record it and again in your final report.
 
 - Read the spec's validation criteria and acceptance statements. Use the spec's own text; do not
   reinterpret intent.
+- Read the target's NFRs too. For a task or PR target, that is the carrier issue's `## Constraints`
+  section; if it is absent, record `None (undeclared)`. For a feature target, it is the
+  `## NFR coverage matrix` comment on the feature's issue — the latest one, if there are several —
+  plus each deferral's record. Note which NFRs are in stage for this plan and which are deferred.
 - Test each criterion: can a machine run it and get a deterministic pass/fail? A criterion that needs
   human judgment is not verifiable here. Do not quietly drop it.
 - **If any criterion is not checkable, stop.** Report which ones and why, and send them back to the
@@ -73,6 +78,10 @@ record it and again in your final report.
 - Write the plan from the `neo-verification-template` skill's template, using the case matrix and
   command-block format. Every criterion traces to at least one case. Every case has a stable ID, a
   pass/fail observable expected result, and a negative or boundary case where one applies.
+- Trace every in-stage NFR to at least one case at its proving layer, per the skill's NFR
+  traceability rules, and list deferred and waived NFRs in Scope. Where the environment a proving
+  layer needs does not exist, mark the case `Blocked` and name the record's Owner as the residual-risk
+  owner — never substitute a weaker layer.
 - Choose the evidence layer per case from the skill's layer table. Do not add a live or manual layer
   unless automated layers cannot reach the property. Mark any missing prerequisite as `Blocked`.
 - Write the plan to the path the repository's `AGENTS.md` designates for verification plans. If none
@@ -102,7 +111,9 @@ record it and again in your final report.
 - Do not count a skipped test, a filtered-to-zero run, or a mock-backed result as a pass for a
   live-proof case. Say what the evidence does not prove, from the plan's limitations section.
 - Report to the human: the gate verdict, the per-case table (ID, result, one-line evidence), the
-  residual-risk list with owners, and the plan's path. Include the pinned SHA.
+  residual-risk list with owners, and the plan's path. Include the pinned SHA. Include one row per NFR:
+  ID, stage · layer, and its result (`Pass`, `Fail`, `Blocked` with owner, or `deferred`). A deferred
+  or `Blocked` NFR never counts toward a `Pass` gate.
 - If the human asks, post the verdict as a PR comment with `gh pr comment`. Do not approve or request
   changes with `gh pr review`; the verdict is a comment, and the human decides.
 
