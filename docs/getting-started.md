@@ -34,8 +34,8 @@ Verification / Operations loop it belongs to (feature verification, CD, telemetr
 
 ## The 60-second model
 
-- A **Feature** is the *business* unit: **What**, **Why**, optional **KPIs**, and
-  **verification steps**. A human — the **Business Engineer (BE)** — signs it. This is the contract.
+- A **Feature** is the *business* unit: **What**, **Why**, optional **KPIs**, **constraints**
+  (its non-functional requirements), and **verification steps**. A human — the **Business Engineer (BE)** — signs it. This is the contract.
 - A **Task** is the *spec* unit: derived from one feature, sized to ≈ one pull request, carrying
   **validation criteria** a machine can run to a deterministic pass/fail.
 - **Humans verify features; machines validate tasks.** Proof is authored when the unit is defined,

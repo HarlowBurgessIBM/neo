@@ -50,9 +50,9 @@ person, "Neo Business Engineer" is always software.
 
 **PRD / Requirements** `[live]` — High-level product or system requirements. Produced by the **Product loop** (`neo-product`), then segmented by the Business Engineer as the input to the Specification loop. A PRD must be **segmentable** — each segment carrying its own business justification — which is the gate at [Boundary 0](./concepts/process-flow.md#boundary-0--product--specification). Its format is owned by the `neo-product-requirements` skill.
 
-**Feature** `[live]` — The business-level unit. Carries What, Why, optional KPIs, and verification steps; signed off by the Business Engineer. A feature is **not** the spec.
+**Feature** `[live]` — The business-level unit. Carries What, Why, optional KPIs, Constraints (its applicable **NFR**s, each with a disposition), and verification steps; signed off by the Business Engineer. A feature is **not** the spec.
 
-**Task** `[live]` — The spec-level unit; the spec analog. Derives from exactly one feature, sized to ≈ one pull request, and carries machine-checkable validation criteria. Shrinking the spec to task grain is Neo's central move.
+**Task** `[live]` — The spec-level unit; the spec analog. Derives from exactly one feature, sized to ≈ one pull request, and carries machine-checkable validation criteria and its Constraints (NFRs proved by tagged criteria or deferred). Shrinking the spec to task grain is Neo's central move.
 
 **Step** `[target]` — A unit inside the Coding loop, ≈ one commit. Authored during implementation, not during decomposition.
 

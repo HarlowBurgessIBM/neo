@@ -61,6 +61,7 @@ A feature is business-level and contains:
 - **What** — a brief description.
 - **Why** — justification for building it _now_.
 - **KPIs** (optional) — hypotheses with a number and a window (e.g. "decrease abandoned carts by 23% over 30 days").
+- **Constraints** — every applicable non-functional requirement, mapped, waived, or n/a with a reason (`neo-nfr-authoring`).
 - **Verification steps** — business-executable in non-prod. **This is the contract.**
 
 Entry to _ready-to-work_ requires What + Why + verification steps **and** BE sign-off. If the BE cannot verify it, it cannot deploy.

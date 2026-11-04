@@ -18,7 +18,7 @@ Specification loop. Assumes Neo is already installed (see
 | **Neo Product Engineer** (`product.engineer`) | Orchestrator for the Product loop — drives research → lenses → synthesis → **PRD** | Yes — if you need a PRD |
 | **Neo Product Researcher / Product Coach / Design Thinking Facilitator / Systems Thinking Facilitator** | Product-loop workers: research fan-out, then the viability, desirability, and feasibility lenses | No — the Product Engineer wires them |
 | **Neo Business Engineer** (`business-engineer`) | Orchestrator for the Specification loop — segments the PRD, runs Feature Agent and Task Planner for each segment, files the approved tasks, then spawns one session per task | Yes — if you want the loop driven rather than driving it by hand |
-| **Neo Feature Agent** (`feature-agent`) | Drafts a **Feature** — What/Why/KPIs/verification — from a PRD segment, with you | Yes |
+| **Neo Feature Agent** (`feature-agent`) | Drafts a **Feature** — What/Why/KPIs/constraints/verification — from a PRD segment, with you | Yes |
 | **Neo Task Planner** (`task-planner`) | Splits a signed feature into **Tasks**, with you | Yes |
 | **Neo Technical Engineer** (`technical-engineer`) | Orchestrator — takes a Task (issue/story) and drives research → plan → implement → review → draft PR | Yes |
 | **Neo Researcher / Implementation Planner / Code Writer / Code Reviewer** | Coding-loop workers the orchestrator delegates to | No — the orchestrator wires them |
@@ -65,7 +65,7 @@ set**. It cannot sign for you.
 
 1. **PRD → Feature.** Invoke **Neo Feature Agent** with a PRD/requirements segment — from step 0,
    or one you already had. It drafts
-   **What**, **Why**, optional **KPIs**, and **verification steps**, working with you. It stops at a
+   **What**, **Why**, optional **KPIs**, **constraints**, and **verification steps**, working with you. It stops at a
    **BE-signed feature** — it does not decompose tasks. Entry to *ready-to-work* requires What + Why
    + verification steps **and** your sign-off. If you can't verify it, it can't ship.
 
