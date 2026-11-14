@@ -1,0 +1,32 @@
+{
+  "name": "shiftswap",
+  "private": true,
+  "type": "module",
+  "description": "ShiftSwap — shift swap requests with fatigue-policy checks (Port Alder Refinery pilot). Fictional demo project.",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run typecheck && npm run build -w @shiftswap/web",
+    "typecheck": "npm run typecheck --workspaces",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "dev:api": "npm run dev -w @shiftswap/api",
+    "dev:web": "npm run dev -w @shiftswap/web"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.5",
+    "eslint": "^10.15.0",
+    "fast-check": "^4.10.2",
+    "globals": "^17.14.0",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.1.0"
+  }
+}

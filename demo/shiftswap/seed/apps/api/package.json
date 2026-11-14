@@ -1,0 +1,14 @@
+{
+  "name": "@shiftswap/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "dev": "tsx watch src/server.ts"
+  },
+  "dependencies": {
+    "@shiftswap/rules": "*",
+    "fastify": "^5.12.8"
+  }
+}
