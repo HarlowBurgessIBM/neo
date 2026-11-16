@@ -9,8 +9,12 @@
 | Recorded by | Port Alder IT Applications |
 | Present | Dana Whitlock (Operations Manager, sponsor); Simone Arceneaux (HSSE Manager); Marcus Ellery (IT Applications Lead); Renee Landry and Carl Nguyen (shift supervisors); Hannah Beaulieu (Site Scheduler); Gloria Menard (Payroll Supervisor); the Business Engineer |
 | Purpose | Answer the open questions in the draft requirements document for the ShiftSwap pilot |
+| Revision | 2, issued 2026-11-16 after the requirements review raised further questions |
 
-Each decision below was made in the meeting by the person named in its section heading.
+Each decision below was made by the person named in its section heading.
+
+**Changed in revision 2.** § 3.2 is corrected, and § 3.6 is reworded to match. §§ 1.8, 2.6, 2.7,
+4.4, 4.5, and 5.7 are new. Nothing else changed, and no section was renumbered.
 
 ## 1. Sponsor decisions — Dana Whitlock
 
@@ -42,6 +46,11 @@ records request, agreement, and decision times so that one can be set later.
 1.7 **Dates.** No dates are set for build milestones. They are sequenced, not scheduled. How many
 requests arrive around a shift change stays unknown until the pilot records it.
 
+1.8 **Which requests count toward supervisor time.** Every request received counts, as it did in
+the tally. The figure for each is the supervisor time actually spent on it. It is zero where no
+supervisor acted: a swap approved without review, a swap the check blocked, a swap the check could
+not determine, and a request withdrawn before review.
+
 ## 2. HSSE decisions — Simone Arceneaux
 
 2.1 **Training days.** Under revision 3 of VE-HSSE-STD-014, scheduled hours and off-duty periods
@@ -62,15 +71,24 @@ holdovers were not counted. The pilot review uses the same method.
 2.5 **Qualification changes during the day.** A qualification that lapses or is renewed is not
 visible until the next export. That is accepted for the pilot.
 
+2.6 **Checking only what the export covers.** VE-HSSE-STD-014 § 4.1 judges the resulting schedule
+in the published roster, and for the swap process the published roster is the export. A swap can
+change only the off-duty periods next to a swapped shift and the seven-day windows that contain
+one. § 3.6 keeps all of those inside the export's coverage. HSSE does not require anything outside
+the coverage to be checked.
+
+2.7 **Currency limit.** Simone agrees the 26-hour limit in § 3.5.
+
 ## 3. Roster export — Marcus Ellery and Hannah Beaulieu
 
 3.1 **When.** The scheduling system exports the roster nightly at 02:00 site time. The file carries
 `exportedAt`, a UTC instant.
 
-3.2 **Coverage.** Each export covers four calendar weeks, Monday to Sunday, starting with the week
-that contains the export date. The file carries `coverage` with the first and last site-time dates.
-The export is complete for that range: an operator with no shift starting on a covered date is
-off duty that day.
+3.2 **Coverage (corrected in revision 2).** Each export covers 28 site-time dates: from six days
+before the export date through 21 days after it. The file carries `coverage` with the first and
+last of those dates. The export is complete for that range: an operator with no shift starting on
+a covered date is off duty that day. Revision 1 said the range started on the Monday of the export
+week. That described the sample, whose export date is a Sunday, and not the rule.
 
 3.3 **Qualifications.** The export carries every operator's qualifications with their valid-through
 dates, taken from the training records system immediately before the export runs.
@@ -83,8 +101,9 @@ when the check is made. With an older export the result is "cannot determine".
 
 3.6 **Horizon.** A swap can be determined only where every seven-day window that contains either
 swapped shift lies inside the export's coverage. That means each swapped shift starts at least six
-days after the first covered date and at least six days before the last. In the sample, those are
-shifts starting from 7 March to 22 March 2027.
+days after the first covered date and at least six days before the last. With the coverage in
+§ 3.2, that is every shift starting from the export date through 15 days after it, whatever day of
+the week the export runs. In the sample, those are shifts starting from 7 March to 22 March 2027.
 
 3.7 **Swaps not yet in an export.** ShiftSwap applies its own approved swaps on top of the export
 when it checks a later request. A request that involves an employee or a shift in another request
@@ -105,6 +124,14 @@ operators. That is the next day at the earliest.
 
 4.3 **The measure.** Whether swaps reached the scheduler in time is judged by payroll's review, as
 it was for the tally. Gloria Menard runs that review. ShiftSwap's list is supporting information.
+
+4.4 **An export that disagrees with an approved swap.** If a later export shows only one of the
+two shifts changed, or a different change, ShiftSwap stops applying that swap and marks it as
+needing the scheduler's attention. Any request involving those shifts or those employees cannot be
+determined until Hannah corrects the scheduling system and a later export agrees.
+
+4.5 **Two swapped shifts that start at the same time.** The supervisor responsible under § 4.1 is
+the supervisor of the unit of the shift the requester gave up.
 
 ## 5. IT decisions — Marcus Ellery
 
@@ -130,3 +157,6 @@ the `shift-supervisor` role only, and auditors receive extracts from IT on reque
 5.6 **Retention.** Marcus will add a standing record for the three-year retention of decision
 records at the register's next revision. Until then the requirement is met by never deleting a
 decision record. No purge is to be built.
+
+5.7 **The scheduler's access.** For the pilot, Hannah Beaulieu is given the `shift-supervisor`
+role at the gateway so that she can see the list of approved swaps awaiting entry.
