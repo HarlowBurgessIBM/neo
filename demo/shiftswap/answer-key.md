@@ -1,6 +1,6 @@
 # ShiftSwap answer key — presenter only
 
-Expected outcomes for ten swap requests against `seed/data/roster.sample.json`, evaluated under
+Expected outcomes for eleven swap requests against `seed/data/roster.sample.json`, evaluated under
 `seed/docs/standards/fatigue-management-policy.md` §§ 3–4. **Do not copy this file or
 `tools/reference-check.mjs` into the demo repository.** If an agent can read the answers, the
 verification proves nothing.
@@ -50,9 +50,10 @@ The one-hour stagger between the units is what produces the 11-hour quick turn.
 | C8 | Luis Fontenot: CDU console day, Fri 12 (`CDU-CON1-0312-D`) | Aisha Okafor's HCU console night, Fri 12 (`HCU-CON2-0312-N`) | **Blocked** | Luis: holds no HCU console qualification. § 3.3 |
 | C9 | Maya Thibodeaux: CDU console night, Thu 18 (`CDU-CON1-0318-N`) | Luis Fontenot's CDU console day, Fri 26 (`CDU-CON1-0326-D`) | **Cannot determine** | The seven-day windows around 26 March run past the end of coverage. Kickoff decisions § 3.6 |
 | C10 | The same swap as C1, with the clock at `2027-03-08T12:00:00Z` | — | **Cannot determine** | The export is 28 hours old; the limit is 26. Kickoff decisions § 3.5 |
+| C11 | Maya Thibodeaux: CDU console night, Thu 18 (`CDU-CON1-0318-N`) | Nadia Trahan's FCC console day, Thu 18 (`FCC-CON1-0318-D`) | **Refused** | The FCC is outside the pilot units, so the swap is not checked at all. PRD requirement A1 |
 
 Each case has exactly one deciding finding, so a result that lists a second reason is wrong. C1 to
-C8 are evaluated with the clock at `2027-03-07T14:00:00Z`.
+C9 and C11 are evaluated with the clock at `2027-03-07T14:00:00Z`.
 
 ## What each case is for
 
@@ -67,6 +68,8 @@ C8 are evaluated with the clock at `2027-03-07T14:00:00Z`.
   breach through to a supervisor. The standard defines the off-duty period as elapsed time (§ 2).
 - **C5** needs the seven-day window to be evaluated on the schedule *after* the swap.
 - **C7** and **C8** separate an expired qualification from one never held.
+- **C11** is the scope boundary. The export covers the whole site; the pilot is two units. Nadia
+  Trahan and her four FCC shifts exist in the sample only for this case.
 - **C9** and **C10** are the "no false safe" cases. C10 is C1 with a stale export: the same swap
   that was approved must now come back as *cannot determine*, not approved.
 

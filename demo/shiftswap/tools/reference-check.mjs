@@ -78,6 +78,8 @@ function evaluateEmployee(employeeNumber, shifts, receivedShiftId) {
 // Pilot kickoff decisions § 3: the local verification clock, the 26-hour currency limit, and
 // the rule that every seven-day window around a swapped shift must lie inside the export.
 const LOCAL_CLOCK = "2027-03-07T14:00:00Z";
+// Operations Manager's brief, item 8: the pilot is the CDU and the HCU.
+const PILOT_UNITS = ["CDU", "HCU"];
 const MAX_EXPORT_AGE_H = 26;
 
 function cannotDetermine(give, take, now) {
@@ -97,6 +99,14 @@ function evaluateSwap(requesterGives, requesterTakes, now = LOCAL_CLOCK) {
   const give = roster.shifts.find((s) => s.shiftId === requesterGives);
   const take = roster.shifts.find((s) => s.shiftId === requesterTakes);
   if (!give || !take) throw new Error(`unknown shift in ${requesterGives} / ${requesterTakes}`);
+  const outside = [give, take].filter((s) => !PILOT_UNITS.includes(s.unit));
+  if (outside.length) {
+    const name = (n) => roster.operators.find((o) => o.employeeNumber === n).name;
+    return {
+      requester: { name: name(give.employeeNumber) }, counterpart: { name: name(take.employeeNumber) },
+      outcome: "REFUSED", findings: outside.map((s) => ({ level: "REFUSE", rule: "A1", who: "scope", detail: `${s.shiftId} is a ${s.unit} shift, outside the pilot units ${PILOT_UNITS.join(" and ")}` })),
+    };
+  }
   const blockers = cannotDetermine(give, take, now);
   if (blockers.length) {
     const name = (n) => roster.operators.find((o) => o.employeeNumber === n).name;
@@ -140,6 +150,7 @@ const cases = [
   ["C8", "CDU-CON1-0312-D", "HCU-CON2-0312-N", "BLOCKED", "requester has never held the qualification"],
   ["C9", "CDU-CON1-0318-N", "CDU-CON1-0326-D", "CANNOT DETERMINE", "shift too close to the end of the export for its seven-day windows"],
   ["C10", "CDU-CON1-0318-N", "CDU-CON1-0319-N", "CANNOT DETERMINE", "same swap as C1, asked 28 hours after the export", "2027-03-08T12:00:00Z"],
+  ["C11", "CDU-CON1-0318-N", "FCC-CON1-0318-D", "REFUSED", "the other shift is on a unit outside the pilot"],
 ];
 
 let failed = 0;

@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 const PATTERNS = {
   CDU: { D: ["06:00", "18:00"], N: ["18:00", "06:00"] },
   HCU: { D: ["05:00", "17:00"], N: ["17:00", "05:00"] },
+  FCC: { D: ["06:00", "18:00"], N: ["18:00", "06:00"] },
 };
 
 const operators = [
@@ -17,6 +18,8 @@ const operators = [
   { employeeNumber: "106640", name: "Aisha Okafor", qualifications: [q("HCU", "CONSOLE", "2028-03-31"), q("CDU", "CONSOLE", "2027-10-31")] },
   { employeeNumber: "103078", name: "Tom Broussard", qualifications: [q("CDU", "FIELD", "2028-05-31"), q("HCU", "FIELD", "2027-08-31")] },
   { employeeNumber: "108529", name: "Jerome Guidry", qualifications: [q("CDU", "FIELD", "2028-01-31"), q("CDU", "CONSOLE", "2027-07-31")] },
+  // Not in the pilot: the export covers the whole site, and the pilot is CDU and HCU only.
+  { employeeNumber: "109364", name: "Nadia Trahan", qualifications: [q("FCC", "CONSOLE", "2028-02-29")] },
 ];
 
 const supervisors = [
@@ -49,6 +52,8 @@ const assignments = [
   // Jerome Guidry
   ...days("108529", "CDU", "FIELD", "D", [11, 12, 18]),
   ...days("108529", "CDU", "FIELD", "N", [13]),
+  // Nadia Trahan — Fluid Catalytic Cracking Unit, outside the pilot
+  ...days("109364", "FCC", "CONSOLE", "D", [11, 12, 18, 19]),
 
   // Lead-in and lead-out weeks. The export covers four calendar weeks, so that every
   // seven-day window around a shift in the two middle weeks is fully inside the data.
@@ -110,6 +115,7 @@ const roster = {
   units: [
     { code: "CDU", name: "Crude Distillation Unit" },
     { code: "HCU", name: "Hydrocracker Unit" },
+    { code: "FCC", name: "Fluid Catalytic Cracking Unit" },
   ],
   operators,
   supervisors,

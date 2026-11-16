@@ -314,7 +314,7 @@ Only a run can answer these. Record each answer here.
 - [ ] Which base branch does the Technical Engineer target?
 - [ ] Do `/fleet` and `/rubber-duck` exist in the installed Copilot version?
 - [ ] Does the verification agent mark NFR-PERF-001 `Blocked` and name its Owner?
-- [ ] Does the built engine return the ten expected outcomes in `answer-key.md`?
+- [ ] Does the built engine return the eleven expected outcomes in `answer-key.md`?
 - [ ] Does PRD version 0.2 close the open questions from the kickoff decisions without changing
       scope?
 - [ ] Does the analyzer attribute events to agents? The observability guide says the `agent`

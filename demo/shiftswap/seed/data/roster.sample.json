@@ -17,6 +17,10 @@
     {
       "code": "HCU",
       "name": "Hydrocracker Unit"
+    },
+    {
+      "code": "FCC",
+      "name": "Fluid Catalytic Cracking Unit"
     }
   ],
   "operators": [
@@ -129,6 +133,17 @@
           "unit": "CDU",
           "role": "CONSOLE",
           "validThrough": "2027-07-31"
+        }
+      ]
+    },
+    {
+      "employeeNumber": "109364",
+      "name": "Nadia Trahan",
+      "qualifications": [
+        {
+          "unit": "FCC",
+          "role": "CONSOLE",
+          "validThrough": "2028-02-29"
         }
       ]
     }
@@ -343,6 +358,14 @@
       "employeeNumber": "108529"
     },
     {
+      "shiftId": "FCC-CON1-0311-D",
+      "unit": "FCC",
+      "role": "CONSOLE",
+      "start": "2027-03-11T06:00",
+      "end": "2027-03-11T18:00",
+      "employeeNumber": "109364"
+    },
+    {
       "shiftId": "CDU-CON1-0312-D",
       "unit": "CDU",
       "role": "CONSOLE",
@@ -357,6 +380,14 @@
       "start": "2027-03-12T06:00",
       "end": "2027-03-12T18:00",
       "employeeNumber": "108529"
+    },
+    {
+      "shiftId": "FCC-CON1-0312-D",
+      "unit": "FCC",
+      "role": "CONSOLE",
+      "start": "2027-03-12T06:00",
+      "end": "2027-03-12T18:00",
+      "employeeNumber": "109364"
     },
     {
       "shiftId": "HCU-CON1-0312-N",
@@ -519,6 +550,14 @@
       "employeeNumber": "108529"
     },
     {
+      "shiftId": "FCC-CON1-0318-D",
+      "unit": "FCC",
+      "role": "CONSOLE",
+      "start": "2027-03-18T06:00",
+      "end": "2027-03-18T18:00",
+      "employeeNumber": "109364"
+    },
+    {
       "shiftId": "HCU-CON1-0318-N",
       "unit": "HCU",
       "role": "CONSOLE",
@@ -533,6 +572,14 @@
       "start": "2027-03-18T18:00",
       "end": "2027-03-19T06:00",
       "employeeNumber": "104417"
+    },
+    {
+      "shiftId": "FCC-CON1-0319-D",
+      "unit": "FCC",
+      "role": "CONSOLE",
+      "start": "2027-03-19T06:00",
+      "end": "2027-03-19T18:00",
+      "employeeNumber": "109364"
     },
     {
       "shiftId": "HCU-CON1-0319-N",
