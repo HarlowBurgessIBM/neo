@@ -13,8 +13,9 @@ is fictional — **Veridane Energy, Port Alder Refinery**.
 | Path | What it is | Goes into the demo repo? |
 | --- | --- | --- |
 | `seed/` | The starting contents of the demo repository: project `AGENTS.md`, client standards, discovery notes, standing NFR register, roster fixture, and a TypeScript skeleton that builds, lints, and tests green | **Yes — all of it, as the first commit** |
+| `client-followup/` | The client's answers to the PRD's open questions (`docs/discovery/pilot-kickoff-decisions.md`). Introduced after the first PRD draft, not before | **Yes — but only after Act 1's first PRD draft** |
 | `run-of-show.md` | The presenter script: setup, acts, prompts, the gates, fallbacks, and what a dry run still has to confirm | No |
-| `answer-key.md` | The expected outcome of eight scripted swaps against the roster fixture | **No — keep it away from the agents** |
+| `answer-key.md` | The expected outcome of ten scripted swaps against the roster fixture | **No — keep it away from the agents** |
 | `tools/build-roster.mjs` | Regenerates `seed/data/roster.sample.json` | No |
 | `tools/reference-check.mjs` | Independently computes the answer key from the fixture and the fatigue standard | **No — it is an answer key in code** |
 

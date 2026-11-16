@@ -35,7 +35,8 @@ Do this before the day. Steps 3 and 4 use the commands in the Neo repository's `
 § Checks.
 
 1. Create an empty GitHub repository with Issues enabled. Copy the contents of `seed/` to its
-   root and commit to `main`. Do not copy `answer-key.md` or `tools/`.
+   root and commit to `main`. Do not copy `answer-key.md`, `tools/`, or `client-followup/`.
+   The last of these goes in during Act 1b.
 2. Create two labels: `feature` and `be-approved`.
 3. Install Neo: add the marketplace, then install `neo-core` and `neo-product`. Confirm the CLI
    reports the installed skill count for each.
@@ -43,6 +44,8 @@ Do this before the day. Steps 3 and 4 use the commands in the Neo repository's `
 5. Use the **Copilot desktop app** for Act 2 onward. The Business Engineer's session fan-out does
    not exist in a bare terminal (`docs/guides/using-neo.md`).
 6. In the demo repository, run `npm ci`, then `npm run build && npm run lint && npm test`.
+   On Windows the app runs sessions inside WSL, so Node 22.13 or later must be installed in the
+   WSL distribution itself. In the first dry run it was not, and `npm ci` failed.
 7. On macOS or Linux, install `jq`; the logger needs it
    (`docs/contributing/guides/observability.md`).
 8. Run the whole show once. After each act, push a `checkpoint/act-N` branch so any act can start
@@ -89,7 +92,37 @@ that `packages/rules/src/index.ts` is one line. State the rule: verify features,
 | **Gate 2 — accept the PRD** | PRD at `docs/design/requirements/<name>/prd.md`, with prioritised requirements, non-goals, and an NFR section | Phase 5 gate |
 
 **To force the RP 755 beat** if no researcher goes near it, ask: *"What does API RP 755 require
-for hours of service?"*
+for hours of service?"* In the first dry run no researcher raised it unprompted.
+
+**Expect a "not yet" at Gate 1.** In the first dry run the Product Engineer recommended against
+authorising a build: the tally is small and self-reported, and it caught that the brief
+overstates the near miss (the schedule gave 11 hours; a holdover cut it to 9 hours 30 minutes).
+That is a good result to show. Proceed anyway, as the Business Engineer, with a pilot-scoped PRD,
+and say what you are accepting: holdovers are a non-goal, and every open assumption is carried
+into the PRD with an owner.
+
+**Check the citations.** In the same run one locator pointed past the end of a 96-line file. Ask
+the agent to re-open the file and correct it; that is the evidence standard doing its job.
+
+### Act 1b — the client answers
+
+The first PRD draft ends with a list of open questions. Several of them block any approval at all
+(how current the roster export is, how far it reaches, who the decider is when nobody reviews).
+
+1. Add `client-followup/docs/discovery/pilot-kickoff-decisions.md` to the demo repository at
+   `docs/discovery/pilot-kickoff-decisions.md`, on `main`, and bring it into the session's branch.
+2. Prompt the Product Engineer:
+
+   > The client has answered the open questions. Their decisions are in
+   > docs/discovery/pilot-kickoff-decisions.md. Revise the PRD to version 0.2: close each open
+   > question that the decisions answer, citing the section; leave open anything they do not
+   > answer; and state the peak request rate where the standing performance requirement needs it.
+   > Do not change scope.
+
+3. What to look for: each closed question cites a section of the decisions; NFR-PERF-001 now has
+   its rate and is still unprovable, because there is still no staging environment; the tablet
+   requirement is still **not** waived, because the note says it is not the waiver.
+4. **Gate 2:** accept PRD version 0.2.
 
 ## Act 2 — Specification loop: PRD to an approved task set
 
@@ -100,9 +133,10 @@ for hours of service?"*
 ### 2a. Segmentation
 
 Neo should propose segments, each with its own business justification, and an NFR × segment
-attachment (`neo.business-engineer.agent.md` step 1). A plausible result is three segments:
-eligibility check on request, supervisor review with a decision record, and hand-back to the
-scheduler. Approve the segmentation and say that only the first segment is being built today.
+attachment (`neo.business-engineer.agent.md` step 1). In the first dry run the PRD
+itself proposed six groups: request and consent; rules check of both employees; routing, review
+and decisions; decision records; scheduler handoff; transparency. Approve the segmentation and say
+that only the rules check is being built today.
 
 ### 2b. Feature — three deliberate pushes
 
@@ -112,7 +146,7 @@ shows a rule holding.
 | You say | What should happen | Where that comes from |
 | --- | --- | --- |
 | "Add a requirement that the system must be secure and scalable." | Refused as an NFR: no measure, no source. It is recorded as an open question | `neo-nfr-authoring` § 3 admission rule |
-| "We are piloting on control-room desktops only. Waive the tablet requirement." | A waiver of NFR-COMPAT-002 is drafted with all six fields. Because the record is standing, it needs the BE **and** the register owner. Neo does not record a signature it was not given. Supply both | `neo-nfr-authoring` § 6; `neo.business-engineer.agent.md` step 2 |
+| "We are piloting on control-room desktops only. Waive the tablet requirement." | A waiver of NFR-COMPAT-002 is drafted with all six fields; its terms are in the kickoff decisions § 5.4. Because the record is standing, it needs the BE **and** the register owner. Neo does not record a signature it was not given. Supply both | `neo-nfr-authoring` § 6; `neo.business-engineer.agent.md` step 2 |
 | "Add a KPI: 80% of operators use ShiftSwap within 30 days." | **Uncertain — see below** | — |
 
 **The KPI push needs care.** Neo's rule that usage metrics are inadmissible for captive users is
@@ -207,10 +241,12 @@ the feature issue. Two results to point at:
   record's Owner, Marcus Ellery. It is not passed on the strength of a unit test.
 - **NFR-COMPAT-001 is a live procedure**, so it is yours to run, in Microsoft Edge.
 
-**Part 3 — the BE verifies.** Start the API and the web app, and work the feature's verification
-steps by hand against `answer-key.md`. Finish on **C4**: the swap looks like an 11-hour turnaround
-and is blocked at 10 hours, because the clocks went forward. That is the criterion you added in
-Act 2d.
+**Part 3 — the BE verifies.** Start the API and the web app with
+`SHIFTSWAP_NOW=2027-03-07T14:00:00Z`, and work the feature's verification steps by hand against
+`answer-key.md`. Finish on **C4**: the swap looks like an 11-hour turnaround and is blocked at 10
+hours, because the clocks went forward. That is the criterion you added in Act 2d. If time allows,
+restart with the clock a day later and repeat C1: the swap that was approved now comes back as
+*cannot determine*, because the export is stale (C10).
 
 **Optional talking point.** If a verification step fails, Neo's process does not default to
 "write more code". The BE decides whether the feature was mis-built or mis-specified
@@ -267,7 +303,9 @@ Only a run can answer these. Record each answer here.
 
 - [ ] How long does each act take end to end?
 - [ ] Does the Product Engineer write the PRD where `seed/AGENTS.md` says, and is it segmentable?
-- [ ] Does any researcher raise RP 755 unprompted?
+- [x] Does any researcher raise RP 755 unprompted? **No** (first dry run).
+- [x] What does the Product Engineer recommend at Gate 1? **Not yet** (first dry run); the BE
+      overrode it.
 - [ ] Does the Feature Agent refuse the adoption KPI, or does the BE have to?
 - [ ] Does the waiver draft ask for the register owner's signature?
 - [ ] Who files the feature issue?
@@ -276,6 +314,8 @@ Only a run can answer these. Record each answer here.
 - [ ] Which base branch does the Technical Engineer target?
 - [ ] Do `/fleet` and `/rubber-duck` exist in the installed Copilot version?
 - [ ] Does the verification agent mark NFR-PERF-001 `Blocked` and name its Owner?
-- [ ] Does the built engine return the eight expected outcomes in `answer-key.md`?
+- [ ] Does the built engine return the ten expected outcomes in `answer-key.md`?
+- [ ] Does PRD version 0.2 close the open questions from the kickoff decisions without changing
+      scope?
 - [ ] Does the analyzer attribute events to agents? The observability guide says the `agent`
       field is not yet confirmed against a real payload.

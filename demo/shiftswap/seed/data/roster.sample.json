@@ -1,12 +1,13 @@
 {
-  "_note": "FICTIONAL sample of the nightly roster export from the site scheduling system. start/end are site-local wall-clock times with no UTC offset; see site.timeZone.",
+  "_note": "FICTIONAL sample of the nightly roster export from the site scheduling system. start/end are site-local wall-clock times with no UTC offset; see site.timeZone. exportedAt is a UTC instant. coverage is the range of site-local dates the export is complete for: an operator with no shift starting on a date in that range is off duty.",
   "site": {
     "name": "Port Alder Refinery",
     "timeZone": "America/Chicago"
   },
-  "rosterPeriod": {
-    "from": "2027-03-08",
-    "to": "2027-03-21"
+  "exportedAt": "2027-03-07T08:00:00Z",
+  "coverage": {
+    "from": "2027-03-01",
+    "to": "2027-03-28"
   },
   "units": [
     {
@@ -149,6 +150,94 @@
     }
   ],
   "shifts": [
+    {
+      "shiftId": "HCU-CON1-0301-D",
+      "unit": "HCU",
+      "role": "CONSOLE",
+      "start": "2027-03-01T05:00",
+      "end": "2027-03-01T17:00",
+      "employeeNumber": "107903"
+    },
+    {
+      "shiftId": "CDU-CON1-0301-D",
+      "unit": "CDU",
+      "role": "CONSOLE",
+      "start": "2027-03-01T06:00",
+      "end": "2027-03-01T18:00",
+      "employeeNumber": "104417"
+    },
+    {
+      "shiftId": "CDU-FLD1-0301-D",
+      "unit": "CDU",
+      "role": "FIELD",
+      "start": "2027-03-01T06:00",
+      "end": "2027-03-01T18:00",
+      "employeeNumber": "108529"
+    },
+    {
+      "shiftId": "HCU-CON1-0301-N",
+      "unit": "HCU",
+      "role": "CONSOLE",
+      "start": "2027-03-01T17:00",
+      "end": "2027-03-02T05:00",
+      "employeeNumber": "101152"
+    },
+    {
+      "shiftId": "CDU-CON1-0301-N",
+      "unit": "CDU",
+      "role": "CONSOLE",
+      "start": "2027-03-01T18:00",
+      "end": "2027-03-02T06:00",
+      "employeeNumber": "102286"
+    },
+    {
+      "shiftId": "CDU-FLD1-0301-N",
+      "unit": "CDU",
+      "role": "FIELD",
+      "start": "2027-03-01T18:00",
+      "end": "2027-03-02T06:00",
+      "employeeNumber": "103078"
+    },
+    {
+      "shiftId": "HCU-CON1-0302-D",
+      "unit": "HCU",
+      "role": "CONSOLE",
+      "start": "2027-03-02T05:00",
+      "end": "2027-03-02T17:00",
+      "employeeNumber": "107903"
+    },
+    {
+      "shiftId": "HCU-CON2-0302-D",
+      "unit": "HCU",
+      "role": "CONSOLE",
+      "start": "2027-03-02T05:00",
+      "end": "2027-03-02T17:00",
+      "employeeNumber": "106640"
+    },
+    {
+      "shiftId": "CDU-CON1-0302-D",
+      "unit": "CDU",
+      "role": "CONSOLE",
+      "start": "2027-03-02T06:00",
+      "end": "2027-03-02T18:00",
+      "employeeNumber": "104417"
+    },
+    {
+      "shiftId": "CDU-FLD1-0302-D",
+      "unit": "CDU",
+      "role": "FIELD",
+      "start": "2027-03-02T06:00",
+      "end": "2027-03-02T18:00",
+      "employeeNumber": "108529"
+    },
+    {
+      "shiftId": "HCU-CON1-0302-N",
+      "unit": "HCU",
+      "role": "CONSOLE",
+      "start": "2027-03-02T17:00",
+      "end": "2027-03-03T05:00",
+      "employeeNumber": "101152"
+    },
     {
       "shiftId": "HCU-CON1-0308-D",
       "unit": "HCU",
@@ -524,6 +613,102 @@
       "start": "2027-03-21T18:00",
       "end": "2027-03-22T06:00",
       "employeeNumber": "103078"
+    },
+    {
+      "shiftId": "HCU-CON1-0326-D",
+      "unit": "HCU",
+      "role": "CONSOLE",
+      "start": "2027-03-26T05:00",
+      "end": "2027-03-26T17:00",
+      "employeeNumber": "101152"
+    },
+    {
+      "shiftId": "HCU-FLD1-0326-D",
+      "unit": "HCU",
+      "role": "FIELD",
+      "start": "2027-03-26T05:00",
+      "end": "2027-03-26T17:00",
+      "employeeNumber": "107903"
+    },
+    {
+      "shiftId": "CDU-CON1-0326-D",
+      "unit": "CDU",
+      "role": "CONSOLE",
+      "start": "2027-03-26T06:00",
+      "end": "2027-03-26T18:00",
+      "employeeNumber": "102286"
+    },
+    {
+      "shiftId": "CDU-FLD1-0326-D",
+      "unit": "CDU",
+      "role": "FIELD",
+      "start": "2027-03-26T06:00",
+      "end": "2027-03-26T18:00",
+      "employeeNumber": "103078"
+    },
+    {
+      "shiftId": "HCU-CON1-0326-N",
+      "unit": "HCU",
+      "role": "CONSOLE",
+      "start": "2027-03-26T17:00",
+      "end": "2027-03-27T05:00",
+      "employeeNumber": "106640"
+    },
+    {
+      "shiftId": "CDU-CON1-0326-N",
+      "unit": "CDU",
+      "role": "CONSOLE",
+      "start": "2027-03-26T18:00",
+      "end": "2027-03-27T06:00",
+      "employeeNumber": "104417"
+    },
+    {
+      "shiftId": "HCU-FLD1-0327-D",
+      "unit": "HCU",
+      "role": "FIELD",
+      "start": "2027-03-27T05:00",
+      "end": "2027-03-27T17:00",
+      "employeeNumber": "107903"
+    },
+    {
+      "shiftId": "CDU-CON1-0327-D",
+      "unit": "CDU",
+      "role": "CONSOLE",
+      "start": "2027-03-27T06:00",
+      "end": "2027-03-27T18:00",
+      "employeeNumber": "102286"
+    },
+    {
+      "shiftId": "CDU-FLD1-0327-D",
+      "unit": "CDU",
+      "role": "FIELD",
+      "start": "2027-03-27T06:00",
+      "end": "2027-03-27T18:00",
+      "employeeNumber": "103078"
+    },
+    {
+      "shiftId": "HCU-CON1-0327-N",
+      "unit": "HCU",
+      "role": "CONSOLE",
+      "start": "2027-03-27T17:00",
+      "end": "2027-03-28T05:00",
+      "employeeNumber": "106640"
+    },
+    {
+      "shiftId": "CDU-CON1-0327-N",
+      "unit": "CDU",
+      "role": "CONSOLE",
+      "start": "2027-03-27T18:00",
+      "end": "2027-03-28T06:00",
+      "employeeNumber": "104417"
+    },
+    {
+      "shiftId": "CDU-FLD1-0327-N",
+      "unit": "CDU",
+      "role": "FIELD",
+      "start": "2027-03-27T18:00",
+      "end": "2027-03-28T06:00",
+      "employeeNumber": "108529"
     }
   ]
 }

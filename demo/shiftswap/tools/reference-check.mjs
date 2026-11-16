@@ -75,10 +75,36 @@ function evaluateEmployee(employeeNumber, shifts, receivedShiftId) {
   return { name: op.name, minRest, maxHours, findings };
 }
 
-function evaluateSwap(requesterGives, requesterTakes) {
+// Pilot kickoff decisions § 3: the local verification clock, the 26-hour currency limit, and
+// the rule that every seven-day window around a swapped shift must lie inside the export.
+const LOCAL_CLOCK = "2027-03-07T14:00:00Z";
+const MAX_EXPORT_AGE_H = 26;
+
+function cannotDetermine(give, take, now) {
+  const reasons = [];
+  const ageH = (Date.parse(now) - Date.parse(roster.exportedAt)) / HOUR;
+  if (ageH > MAX_EXPORT_AGE_H) reasons.push(`roster export is ${ageH}h old (limit ${MAX_EXPORT_AGE_H}h)`);
+  const from = dayNumber(roster.coverage.from), to = dayNumber(roster.coverage.to);
+  for (const s of [give, take]) {
+    const d = dayNumber(s.start);
+    if (d - 6 < from || d + 6 > to)
+      reasons.push(`seven-day windows around ${s.shiftId} extend outside export coverage ${roster.coverage.from}..${roster.coverage.to}`);
+  }
+  return reasons;
+}
+
+function evaluateSwap(requesterGives, requesterTakes, now = LOCAL_CLOCK) {
   const give = roster.shifts.find((s) => s.shiftId === requesterGives);
   const take = roster.shifts.find((s) => s.shiftId === requesterTakes);
   if (!give || !take) throw new Error(`unknown shift in ${requesterGives} / ${requesterTakes}`);
+  const blockers = cannotDetermine(give, take, now);
+  if (blockers.length) {
+    const name = (n) => roster.operators.find((o) => o.employeeNumber === n).name;
+    return {
+      requester: { name: name(give.employeeNumber) }, counterpart: { name: name(take.employeeNumber) },
+      outcome: "CANNOT DETERMINE", findings: blockers.map((detail) => ({ level: "UNKNOWN", rule: "B3", who: "data", detail })),
+    };
+  }
   const requester = give.employeeNumber, counterpart = take.employeeNumber;
   const after = roster.shifts.map((s) =>
     s.shiftId === give.shiftId ? { ...s, employeeNumber: counterpart }
@@ -112,15 +138,17 @@ const cases = [
   ["C6", "CDU-CON2-0308-D", "HCU-CON1-0317-D", "NEEDS REVIEW", "sixth shift in seven days: 72h"],
   ["C7", "HCU-CON1-0308-D", "HCU-CON1-0317-D", "BLOCKED", "qualification expired two days before the shift"],
   ["C8", "CDU-CON1-0312-D", "HCU-CON2-0312-N", "BLOCKED", "requester has never held the qualification"],
+  ["C9", "CDU-CON1-0318-N", "CDU-CON1-0326-D", "CANNOT DETERMINE", "shift too close to the end of the export for its seven-day windows"],
+  ["C10", "CDU-CON1-0318-N", "CDU-CON1-0319-N", "CANNOT DETERMINE", "same swap as C1, asked 28 hours after the export", "2027-03-08T12:00:00Z"],
 ];
 
 let failed = 0;
 console.log("");
-for (const [id, gives, takes, expected, why] of cases) {
-  const res = evaluateSwap(gives, takes);
+for (const [id, gives, takes, expected, why, now] of cases) {
+  const res = evaluateSwap(gives, takes, now);
   const ok = res.outcome === expected;
   if (!ok) failed += 1;
-  console.log(`${id}  ${ok ? "ok      " : "MISMATCH"} ${res.outcome.padEnd(13)} ${res.requester.name} gives ${gives}, takes ${takes} from ${res.counterpart.name}`);
+  console.log(`${id.padEnd(3)} ${ok ? "ok      " : "MISMATCH"} ${res.outcome.padEnd(16)} ${res.requester.name} gives ${gives}, takes ${takes} from ${res.counterpart.name}`);
   console.log(`      intent: ${why}`);
   for (const f of res.findings) console.log(`      ${f.level.padEnd(6)} § ${f.rule.padEnd(6)} ${f.who}: ${f.detail}`);
 }

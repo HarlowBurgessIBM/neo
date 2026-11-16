@@ -92,6 +92,9 @@ result that would show it failed.
 
 - **Local** is the only non-production environment: the API and web app running on one machine
   against `data/roster.sample.json`. Feature verification steps are run here.
+- The sample roster is dated March 2027, so local runs set the application clock with the
+  `SHIFTSWAP_NOW` environment variable, an ISO 8601 UTC instant. Use `2027-03-07T14:00:00Z` with
+  the sample. When the variable is unset the system clock is used. Tests pass the time explicitly.
 - There is **no staging environment** (`docs/standards/engineering-standard.md` § 9). Anything
   that needs one cannot be run.
 - Nothing is deployed to production.
@@ -100,6 +103,8 @@ result that would show it failed.
 
 - Roster times (`start`, `end`) are site-local wall-clock values with no UTC offset. The site
   time zone is in the roster file under `site.timeZone`.
+- The roster file also carries `exportedAt`, a UTC instant, and `coverage`, the first and last
+  site-local dates the export is complete for.
 - The roster file is a nightly export from the scheduling system, which stays the system of
   record. ShiftSwap never writes to it.
 - Identity comes from two request headers set by the site access gateway

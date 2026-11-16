@@ -1,6 +1,6 @@
 # ShiftSwap answer key — presenter only
 
-Expected outcomes for eight swap requests against `seed/data/roster.sample.json`, evaluated under
+Expected outcomes for ten swap requests against `seed/data/roster.sample.json`, evaluated under
 `seed/docs/standards/fatigue-management-policy.md` §§ 3–4. **Do not copy this file or
 `tools/reference-check.mjs` into the demo repository.** If an agent can read the answers, the
 verification proves nothing.
@@ -15,8 +15,17 @@ It exits non-zero if any case no longer matches.
 
 ## The roster in one view
 
-Roster period: Monday 8 March to Sunday 21 March 2027. Site time zone: `America/Chicago`. Site
-clocks go forward one hour at 02:00 on Sunday 14 March 2027.
+Site time zone: `America/Chicago`. Site clocks go forward one hour at 02:00 on Sunday 14 March 2027.
+
+| Fact | Value |
+| --- | --- |
+| Export time (`exportedAt`) | `2027-03-07T08:00:00Z`, which is 02:00 site time on Sunday 7 March |
+| Coverage (`coverage`) | Monday 1 March to Sunday 28 March 2027 |
+| Swaps that can be determined | Both shifts start between 7 March and 22 March |
+| Local verification clock (`SHIFTSWAP_NOW`) | `2027-03-07T14:00:00Z` |
+| Export currency limit | 26 hours |
+
+The last three rows come from `client-followup/docs/discovery/pilot-kickoff-decisions.md` § 3.
 
 | Unit | Day shift | Night shift |
 | --- | --- | --- |
@@ -39,8 +48,11 @@ The one-hour stagger between the units is what produces the 11-hour quick turn.
 | C6 | Aisha Okafor: CDU console day, Mon 8 (`CDU-CON2-0308-D`) | Dwayne Hebert's HCU console day, Wed 17 (`HCU-CON1-0317-D`) | **Needs review** | Aisha: 72 h in the seven days from Mon 15. § 4.2(b) |
 | C7 | Priya Raman: HCU console day, Mon 8 (`HCU-CON1-0308-D`) | Dwayne Hebert's HCU console day, Wed 17 (`HCU-CON1-0317-D`) | **Blocked** | Priya: HCU console qualification valid through 15 March, shift is on the 17th. § 3.3 |
 | C8 | Luis Fontenot: CDU console day, Fri 12 (`CDU-CON1-0312-D`) | Aisha Okafor's HCU console night, Fri 12 (`HCU-CON2-0312-N`) | **Blocked** | Luis: holds no HCU console qualification. § 3.3 |
+| C9 | Maya Thibodeaux: CDU console night, Thu 18 (`CDU-CON1-0318-N`) | Luis Fontenot's CDU console day, Fri 26 (`CDU-CON1-0326-D`) | **Cannot determine** | The seven-day windows around 26 March run past the end of coverage. Kickoff decisions § 3.6 |
+| C10 | The same swap as C1, with the clock at `2027-03-08T12:00:00Z` | — | **Cannot determine** | The export is 28 hours old; the limit is 26. Kickoff decisions § 3.5 |
 
-Each case has exactly one deciding finding, so a result that lists a second reason is wrong.
+Each case has exactly one deciding finding, so a result that lists a second reason is wrong. C1 to
+C8 are evaluated with the clock at `2027-03-07T14:00:00Z`.
 
 ## What each case is for
 
@@ -55,6 +67,8 @@ Each case has exactly one deciding finding, so a result that lists a second reas
   breach through to a supervisor. The standard defines the off-duty period as elapsed time (§ 2).
 - **C5** needs the seven-day window to be evaluated on the schedule *after* the swap.
 - **C7** and **C8** separate an expired qualification from one never held.
+- **C9** and **C10** are the "no false safe" cases. C10 is C1 with a stale export: the same swap
+  that was approved must now come back as *cannot determine*, not approved.
 
 ## Two things in the fixture that are easy to trip on
 
@@ -64,8 +78,8 @@ Each case has exactly one deciding finding, so a result that lists a second reas
   roster is not re-judged; only a swap's resulting schedule is. C5 is blocked because the swap
   takes him to 84 h.
 
-## If the demo date moves past 8 March 2027
+## If the demo date moves
 
-The roster would be in the past. Change the dates in `tools/build-roster.mjs`, regenerate, and
-update the cases in `tools/reference-check.mjs`. C4 depends on a night when clocks go forward; the
-next one after March 2027 is in March 2028 under current US rules.
+The application clock is set with `SHIFTSWAP_NOW`, so the real date does not matter. To use a
+different roster period, change the dates in `tools/build-roster.mjs`, regenerate, and update the
+cases in `tools/reference-check.mjs`. C4 depends on a night when clocks go forward.

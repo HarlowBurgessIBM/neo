@@ -49,6 +49,24 @@ const assignments = [
   // Jerome Guidry
   ...days("108529", "CDU", "FIELD", "D", [11, 12, 18]),
   ...days("108529", "CDU", "FIELD", "N", [13]),
+
+  // Lead-in and lead-out weeks. The export covers four calendar weeks, so that every
+  // seven-day window around a shift in the two middle weeks is fully inside the data.
+  // These are on 1–2 and 26–27 March only, which leaves every scripted outcome unchanged.
+  ...days("104417", "CDU", "CONSOLE", "D", [1, 2]),
+  ...days("104417", "CDU", "CONSOLE", "N", [26, 27]),
+  ...days("102286", "CDU", "CONSOLE", "N", [1]),
+  ...days("102286", "CDU", "CONSOLE", "D", [26, 27]),
+  ...days("107903", "HCU", "CONSOLE", "D", [1, 2]),
+  ...days("107903", "HCU", "FIELD", "D", [26, 27]),
+  ...days("101152", "HCU", "CONSOLE", "N", [1, 2]),
+  ...days("101152", "HCU", "CONSOLE", "D", [26]),
+  ...days("106640", "HCU", "CONSOLE", "D", [2]),
+  ...days("106640", "HCU", "CONSOLE", "N", [26, 27]),
+  ...days("103078", "CDU", "FIELD", "N", [1]),
+  ...days("103078", "CDU", "FIELD", "D", [26, 27]),
+  ...days("108529", "CDU", "FIELD", "D", [1, 2]),
+  ...days("108529", "CDU", "FIELD", "N", [27]),
 ];
 
 function q(unit, role, validThrough) {
@@ -83,9 +101,12 @@ const shifts = assignments
 const roster = {
   _note:
     "FICTIONAL sample of the nightly roster export from the site scheduling system. " +
-    "start/end are site-local wall-clock times with no UTC offset; see site.timeZone.",
+    "start/end are site-local wall-clock times with no UTC offset; see site.timeZone. " +
+    "exportedAt is a UTC instant. coverage is the range of site-local dates the export is " +
+    "complete for: an operator with no shift starting on a date in that range is off duty.",
   site: { name: "Port Alder Refinery", timeZone: "America/Chicago" },
-  rosterPeriod: { from: "2027-03-08", to: "2027-03-21" },
+  exportedAt: "2027-03-07T08:00:00Z",
+  coverage: { from: "2027-03-01", to: "2027-03-28" },
   units: [
     { code: "CDU", name: "Crude Distillation Unit" },
     { code: "HCU", name: "Hydrocracker Unit" },
