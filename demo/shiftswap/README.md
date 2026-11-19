@@ -14,7 +14,8 @@ is fictional — **Veridane Energy, Port Alder Refinery**.
 | --- | --- | --- |
 | `seed/` | The starting contents of the demo repository: project `AGENTS.md`, client standards, discovery notes, standing NFR register, roster fixture, and a TypeScript skeleton that builds, lints, and tests green | **Yes — all of it, as the first commit** |
 | `client-followup/` | The client's answers to the PRD's open questions (`docs/discovery/pilot-kickoff-decisions.md`). Introduced after the first PRD draft, not before | **Yes — but only after Act 1's first PRD draft** |
-| `run-of-show.md` | The presenter script: setup, acts, prompts, the gates, fallbacks, and what a dry run still has to confirm | No |
+| `run-of-show.md` | The presenter script, rewritten after the first end-to-end run: what was observed, what to run live, what to show from the finished run, and what is still untested | No |
+| `prompts.md` | The prompts that worked in the first run, in order | **No** |
 | `answer-key.md` | The expected outcome of eleven scripted swaps against the roster fixture | **No — keep it away from the agents** |
 | `tools/build-roster.mjs` | Regenerates `seed/data/roster.sample.json` | No |
 | `tools/reference-check.mjs` | Independently computes the answer key from the fixture and the fatigue standard | **No — it is an answer key in code** |
@@ -30,12 +31,15 @@ Neo runs against a *consuming* repository, so the seed has to live in a reposito
 
 ## What is and is not verified
 
-- **Verified here:** the seed's `npm run build`, `npm run lint`, and `npm test` exit 0 on Node
-  22.23; `npm run dev:api` serves `/api/healthz`; the answer key is computed by
-  `tools/reference-check.mjs`, not written by hand.
-- **Not verified:** nothing in `run-of-show.md` has been run against GitHub Copilot. Every
-  "expected" behaviour there is read from Neo's agent prompts and skills and has to be confirmed
-  in a dry run.
+- **Verified in this kit:** the seed's `npm run build`, `npm run lint`, and `npm test` exit 0;
+  the answer key is computed by `tools/reference-check.mjs`, not written by hand.
+- **Observed in one end-to-end run** (14 to 19 November 2026, `HarlowBurgessIBM/neo-demo-1`):
+  the Product loop, the Specification loop, the coding crew and the verification agent took
+  Feature 1 from the problem statement to a verified squash on `main`. The built engine returned
+  all eleven expected outcomes, and its counts over all 4,748 possible picks matched the reference
+  check. `run-of-show.md` says what was observed and what was not.
+- **Not exercised:** observability logging, parallel task fan-out, and the `neo-typescript` stack
+  plugin, which was written after that run.
 
 ## Fictional content
 
