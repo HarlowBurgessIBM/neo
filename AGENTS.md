@@ -34,6 +34,10 @@ plugins/neo-product/                 The Product loop — same shape, grouped by
   skills/                            Copilot skills — neo-<name>/SKILL.md
   hooks/hooks.json                   Copilot hook config (v1 schema, ${PLUGIN_ROOT})
   hooks/scripts/log-event.sh         its own copy — plugins can't share files
+plugins/neo-typescript/              A stack plugin — the technology tier for TypeScript:
+  plugin.json                        Copilot plugin manifest (declares `skills` only)
+  skills/                            Copilot skills — neo-typescript-<name>/SKILL.md
+                                     No agents/ and no hooks/: a stack plugin is skills-first
 .github/plugin/marketplace.json      Copilot marketplace (root, lists plugins[])
 .github/agents/neo.master-control.agent.md   DEV-TIME agent (Copilot), never shipped
 scripts/validate-plugins.py          CI plugin check (manifests + hooks + agents: allowlists)
@@ -54,6 +58,9 @@ The shipped agents:
 | `plugins/neo-product/` | `product.engineer` (orchestrator — start here), `product.researcher`, `product.coach`, `design.thinking`, `systems.thinking`                              |
 
 `master-control` is dev-time only and lives at the repo root, never in a plugin.
+
+`plugins/neo-typescript/` ships no agents. It is a **stack plugin**: skills the core crew loads by
+description when the work is TypeScript (`docs/contributing/reference/stack-plugin-contract.md`).
 
 ## Naming
 
@@ -76,7 +83,8 @@ This repo has nothing to compile, lint, or unit-test in the app sense. Do **not*
   real agent names.
 - **Plugins validate** — run `python3 scripts/validate-plugins.py` (`uv run scripts/validate-plugins.py`
   where `python3` isn't on PATH, e.g. Windows). It walks every
-  `plugins/*/`, checks the Copilot manifest + hooks parse, asserts every declared component
+  `plugins/*/`, checks the Copilot manifest parses (and the hooks config, for any plugin that ships
+  agents or hooks — a skills-only stack plugin needs neither), asserts every declared component
   path (`agents`, `skills`, `hooks`) resolves to something real on disk, validates each
   `hooks.json` against the hook-manifest contract (`scripts/linting/schemas/hook-manifest.schema.json`
   — including the rule that a `powershell` command must use `$env:PLUGIN_ROOT`, not the
@@ -93,6 +101,7 @@ This repo has nothing to compile, lint, or unit-test in the app sense. Do **not*
   copilot plugin marketplace add .       # must run from the repo root
   copilot plugin install neo-core@neo    # must say "Installed 5 skills."
   copilot plugin install neo-product@neo # must say "Installed 5 skills."
+  copilot plugin install neo-typescript@neo # must say "Installed 2 skills."
   copilot plugin list                    # confirms installed, enabled, and live directory
   copilot -p "List the exact names of every skill available to you and nothing else."
   ```

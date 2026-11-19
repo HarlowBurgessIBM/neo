@@ -1,0 +1,18 @@
+{
+  "name": "neo-typescript",
+  "version": "0.1.0",
+  "description": "Neo stack plugin for TypeScript — skills the coding crew loads when writing, testing, or reviewing TypeScript: strict-mode conventions, narrowing data at boundaries, time and duration arithmetic, and testing with Vitest and fast-check. Skills only; it adds no agents and no hooks.",
+  "author": {
+    "name": "Harlow Burgess"
+  },
+  "homepage": "https://github.com/HarlowBurgessIBM/neo",
+  "repository": "https://github.com/HarlowBurgessIBM/neo",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "typescript",
+    "stack",
+    "testing"
+  ],
+  "skills": "skills/"
+}

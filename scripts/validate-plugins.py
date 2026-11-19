@@ -6,7 +6,10 @@ Copilot is the canonical, sole source.
 
 This script makes the remaining invariants executable:
 
-  * every plugin has its Copilot manifest AND hooks config, and both are valid JSON;
+  * every plugin has its Copilot manifest, and a plugin that ships agents also has a
+    hooks config; both are valid JSON. A stack plugin may ship skills only — no agents
+    and no hooks (docs/contributing/reference/stack-plugin-contract.md) — but a plugin
+    that ships neither agents nor skills contributes nothing and is rejected;
   * the root Copilot marketplace manifest is valid JSON;
   * every component path a plugin declares (`agents`, `skills`, `hooks`) resolves to
     something real on disk, AND every component directory that exists is declared.
@@ -627,11 +630,17 @@ def check_component_paths(plugin: Path) -> None:
 def check_plugin(plugin: Path) -> None:
     name = plugin.name
 
-    # 1. Copilot manifest + hooks config must exist and parse.
+    # 1. The Copilot manifest must exist and parse. The hooks config must too, for any
+    #    plugin that ships agents or hooks. A stack plugin is skills-first and may ship
+    #    neither (stack-plugin-contract.md § Skills-first, but not skills-only), so a
+    #    plugin with no agents/ and no hooks/ is not asked for a hooks.json.
     check_json(plugin / "plugin.json")
     hooks_json = plugin / "hooks" / "hooks.json"
-    check_json(hooks_json)
-    check_hooks_manifest(hooks_json)
+    ships_agents = (plugin / "agents").is_dir()
+    ships_hooks = (plugin / "hooks").exists()
+    if ships_agents or ships_hooks:
+        check_json(hooks_json)
+        check_hooks_manifest(hooks_json)
 
     # 1b. Declared component paths must match what's actually on disk, in both
     #     directions — an undeclared or unresolvable path fails silently at runtime.
@@ -643,7 +652,13 @@ def check_plugin(plugin: Path) -> None:
     #    display name, so the delegator's body must also spell out that ID.
     files = copilot_agent_files(plugin)
     if not files:
-        errors.append(f"[{name}] no Copilot agents found under agents/")
+        if ships_agents:
+            errors.append(f"[{name}] no Copilot agents found under agents/")
+        elif not any((d / "SKILL.md").is_file() for d in (plugin / "skills").glob("*/")):
+            errors.append(
+                f"[{name}] ships no agents and no skills; a plugin must contribute at "
+                f"least one of them"
+            )
         return
     declared = {fm_name(f) for f in files} - {None}
     agent_type_of = {

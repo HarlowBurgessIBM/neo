@@ -23,6 +23,9 @@ holds manifests, docs, and dev-time-only tooling.
   `product.researcher`, `product.coach`, `design.thinking`, `systems.thinking`), the three product
   skills, its own copies of `neo-evidence-standard` and `neo-nfr-authoring`, and its own copy of
   the hooks + logger.
+- `plugins/neo-typescript/` — an optional **stack plugin** for TypeScript. Two skills
+  (`neo-typescript-conventions`, `neo-typescript-testing`) that the core crew loads by description
+  when writing, testing, or reviewing TypeScript. No agents and no hooks.
 - `.github/agents/` (repo root) — `master-control`, the **dev-time** agent that authors this
   harness config. Never shipped.
 - `.github/plugin/marketplace.json` — the marketplace manifest (stays at root, lists each plugin
@@ -62,6 +65,7 @@ The marketplace is `neo`. `neo-core` is the baseline; `neo-product` is opt-in.
 copilot plugin marketplace add skyarkitekten/neo
 copilot plugin install neo-core@neo
 copilot plugin install neo-product@neo   # optional — only if you need a PRD
+copilot plugin install neo-typescript@neo   # optional — stack skills for TypeScript projects
 ```
 
 Copilot CLI also picks up the repo-root `.github/agents/` automatically for anyone working

@@ -12,11 +12,13 @@ fields, and the `neo-` naming convention.
 > carries no `agents/`, `skills/`, `.claude/`, or `.claude-plugin/` trees, and there is no
 > mirror or dual-manifest rule to maintain.
 
-Neo is a **monorepo of plugins**. Shipped plugins live under `plugins/`; today there are two,
-`plugins/neo-core/` (the coding and specification crew) and `plugins/neo-product/` (the
-Product loop). The repo root holds the marketplace manifest, docs, and dev-time-only
-tooling. Per-stack plugins (e.g. a hypothetical `plugins/neo-react/`) are added the same way
-`neo-core` is packaged — this contract governs all of them.
+Neo is a **monorepo of plugins**. Shipped plugins live under `plugins/`; today there are three,
+`plugins/neo-core/` (the coding and specification crew), `plugins/neo-product/` (the
+Product loop), and `plugins/neo-typescript/` (a stack plugin: skills only). The repo root holds
+the marketplace manifest, docs, and dev-time-only tooling. Further per-stack plugins (e.g. a
+hypothetical `plugins/neo-react/`) are added the same way — this contract governs all of them.
+A stack plugin may omit `agents/` and `hooks/`; a plugin that ships agents must ship
+`hooks/hooks.json`.
 
 All statements here were verified against the manifest, agent, hook, and skill files in this
 repo. Field names, filenames, and values are transcribed from those files, not inferred.
@@ -32,7 +34,8 @@ neo/
 │       └── neo.master-control.agent.md   # DEV-TIME agent (Copilot), never shipped
 ├── plugins/
 │   ├── neo-core/                     # a shipped plugin (see §1 for its shape)
-│   └── neo-product/                  # a shipped plugin — the Product loop
+│   ├── neo-product/                  # a shipped plugin — the Product loop
+│   └── neo-typescript/               # a shipped stack plugin — skills only
 ├── scripts/
 │   └── validate-plugins.py           # CI: asserts each plugin's Copilot manifests + allowlists are valid
 └── docs/                             # this spec, glossary, architecture, etc. — not shipped

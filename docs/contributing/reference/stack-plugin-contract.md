@@ -131,7 +131,9 @@ the agents record "Standing NFRs: none" rather than guessing.
 | `enforce-guardrails.{sh,ps1}` | `neo-core`, `neo-product` | Opt-in `preToolUse` guardrail scripts, shipped unregistered; duplicated like the logger |
 | `analyze_agent_logs.py` | `neo-core` | Analyzes logs the core hooks emit — ships with them |
 | **`master-control`** | **nothing** | Dev-time only |
-| Stack skills (React, xUnit, Bicep, …) | `neo-<stack>` | Mostly not yet authored |
+| `neo-typescript-conventions` skill | `neo-typescript` | Writing and reviewing TypeScript: boundaries, strict options, unions, time arithmetic |
+| `neo-typescript-testing` skill | `neo-typescript` | Tests with Vitest and fast-check: boundaries, properties, deterministic time, fixtures |
+| Other stack skills (React, xUnit, Bicep, …) | `neo-<stack>` | Not yet authored |
 
 ---
 

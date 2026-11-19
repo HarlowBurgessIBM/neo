@@ -80,6 +80,17 @@ additive and late-bound. The core/stack split — the three tiers and how stack 
 at runtime — is owned by
 [../contributing/reference/stack-plugin-contract.md](../contributing/reference/stack-plugin-contract.md).
 
+One stack plugin ships today, for TypeScript:
+
+```
+copilot plugin install neo-typescript@neo
+```
+
+It adds two skills and nothing else. The Code Writer and Code Reviewer pick them up by
+description, so there is nothing to wire. After installing, ask a session to list its skills and
+confirm `neo-typescript-conventions` and `neo-typescript-testing` appear: a skill that fails to
+load reports nothing.
+
 ## 6. Verify the install
 
 - The agents appear in Copilot's agent picker (look for `Neo <Role>` names, e.g. **Neo Technical
